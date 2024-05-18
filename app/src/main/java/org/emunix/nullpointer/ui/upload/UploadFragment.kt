@@ -10,14 +10,22 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
+import androidx.documentfile.provider.DocumentFile
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import kotlinx.coroutines.launch
 import org.emunix.nullpointer.R
+import org.emunix.nullpointer.data.repository.UploadRepositoryImpl
 import org.emunix.nullpointer.databinding.FragmentUploadBinding
 
 class UploadFragment : Fragment() {
 
-    private val viewModel = ViewModelProvider(this).get(UploadViewModel::class.java)
+    private val viewModel: UploadViewModel by viewModels {
+        UploadViewModelFactory(UploadRepositoryImpl(requireContext().cacheDir))
+    }
 
     private var _binding: FragmentUploadBinding? = null
 
@@ -25,9 +33,12 @@ class UploadFragment : Fragment() {
 
     private val selectFileResult = registerForActivityResult(StartActivityForResult()) { result: ActivityResult ->
         if (result.resultCode == Activity.RESULT_OK) {
-            val uri = result.data?.data
-            if (uri != null) {
-                binding.textUpload.text = uri.toString()
+            result.data?.data?.let { uri ->
+                val document = DocumentFile.fromSingleUri(requireContext(), uri)
+                val fileName = document?.name.orEmpty()
+                context?.contentResolver?.openInputStream(uri)?.let { inputStream ->
+                    viewModel.uploadFile(fileName, inputStream)
+                }
             }
         }
     }
@@ -49,6 +60,21 @@ class UploadFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.uploadButton.setOnClickListener { selectFile() }
+        setupObservers()
+    }
+
+    private fun setupObservers() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    viewModel.url.collect { url ->
+                        if (url != null) {
+                            binding.textUpload.text = url
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private fun selectFile() {
