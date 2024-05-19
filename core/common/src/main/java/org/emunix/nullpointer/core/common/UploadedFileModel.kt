@@ -1,4 +1,4 @@
-package org.emunix.nullpointer.domain.model
+package org.emunix.nullpointer.core.common
 
 import java.util.Date
 

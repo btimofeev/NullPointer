@@ -21,3 +21,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "Null Pointer"
 include(":app")
+include(":core:common")
+include(":feature:uploader:api")
+include(":feature:uploader:impl")

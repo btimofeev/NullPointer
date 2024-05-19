@@ -1,4 +1,4 @@
-package org.emunix.nullpointer.data.api
+package org.emunix.nullpointer.uploader.impl.data.api
 
 import okhttp3.MultipartBody
 import retrofit2.Response

@@ -1,6 +1,6 @@
-package org.emunix.nullpointer.domain
+package org.emunix.nullpointer.uploader.api.domain
 
-import org.emunix.nullpointer.domain.model.UploadedFileModel
+import org.emunix.nullpointer.core.common.UploadedFileModel
 import java.io.InputStream
 
 interface UploadRepository {

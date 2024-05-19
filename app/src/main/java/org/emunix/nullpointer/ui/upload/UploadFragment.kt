@@ -17,14 +17,14 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.launch
+import org.emunix.nullpointer.App
 import org.emunix.nullpointer.R
-import org.emunix.nullpointer.data.repository.UploadRepositoryImpl
 import org.emunix.nullpointer.databinding.FragmentUploadBinding
 
 class UploadFragment : Fragment() {
 
     private val viewModel: UploadViewModel by viewModels {
-        UploadViewModelFactory(UploadRepositoryImpl(requireContext().cacheDir))
+        UploadViewModelFactory((requireActivity().application as App).appComponent.getUploadRepository())
     }
 
     private var _binding: FragmentUploadBinding? = null

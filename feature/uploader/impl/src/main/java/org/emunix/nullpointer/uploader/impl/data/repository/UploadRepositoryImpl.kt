@@ -1,13 +1,13 @@
-package org.emunix.nullpointer.data.repository
+package org.emunix.nullpointer.uploader.impl.data.repository
 
 import okhttp3.MultipartBody.Part
 import okhttp3.RequestBody
-import org.emunix.nullpointer.data.api.UploadApi
-import org.emunix.nullpointer.domain.UploadRepository
-import org.emunix.nullpointer.domain.model.CreateTempFileException
-import org.emunix.nullpointer.domain.model.ResponseIsEmptyException
-import org.emunix.nullpointer.domain.model.UploadFailedException
-import org.emunix.nullpointer.domain.model.UploadedFileModel
+import org.emunix.nullpointer.uploader.impl.data.api.UploadApi
+import org.emunix.nullpointer.uploader.api.domain.UploadRepository
+import org.emunix.nullpointer.core.common.CreateTempFileException
+import org.emunix.nullpointer.core.common.ResponseIsEmptyException
+import org.emunix.nullpointer.core.common.UploadFailedException
+import org.emunix.nullpointer.core.common.UploadedFileModel
 import retrofit2.Response
 import java.io.File
 import java.io.IOException
