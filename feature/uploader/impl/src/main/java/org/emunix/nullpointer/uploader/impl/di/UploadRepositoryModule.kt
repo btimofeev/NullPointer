@@ -6,11 +6,31 @@ import dagger.Provides
 import org.emunix.nullpointer.core.common.di.ApplicationContext
 import org.emunix.nullpointer.uploader.impl.data.repository.UploadRepositoryImpl
 import org.emunix.nullpointer.uploader.api.domain.UploadRepository
+import org.emunix.nullpointer.uploader.impl.data.api.UploadApi
+import retrofit2.Retrofit
+import retrofit2.converter.scalars.ScalarsConverterFactory
+import javax.inject.Singleton
 
 @Module
 class UploadRepositoryModule {
 
     @Provides
-    fun provideUploadRepository(@ApplicationContext context: Context): UploadRepository =
-        UploadRepositoryImpl(tempDir = context.cacheDir)
+    @Singleton
+    fun provideUploadApi(): UploadApi =
+        Retrofit.Builder()
+            .baseUrl("https://0x0.st/")
+            .addConverterFactory(ScalarsConverterFactory.create())
+            .build()
+            .create(UploadApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideUploadRepository(
+        @ApplicationContext context: Context,
+        uploadApi: UploadApi,
+    ): UploadRepository =
+        UploadRepositoryImpl(
+            uploadApi = uploadApi,
+            tempDir = context.cacheDir,
+        )
 }

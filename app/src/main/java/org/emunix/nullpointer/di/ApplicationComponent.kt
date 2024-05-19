@@ -6,12 +6,14 @@ import dagger.Component
 import org.emunix.nullpointer.core.common.di.ApplicationContext
 import org.emunix.nullpointer.uploader.api.domain.UploadRepository
 import org.emunix.nullpointer.uploader.impl.di.UploadRepositoryModule
+import javax.inject.Singleton
 
 @Component(
     modules = [
         UploadRepositoryModule::class,
     ]
 )
+@Singleton
 interface ApplicationComponent {
 
     @ApplicationContext

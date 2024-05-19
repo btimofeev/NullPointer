@@ -15,6 +15,7 @@ import java.io.InputStream
 import java.util.Date
 
 class UploadRepositoryImpl(
+    private val uploadApi: UploadApi,
     private val tempDir: File,
 ) : UploadRepository {
 
@@ -39,7 +40,7 @@ class UploadRepositoryImpl(
     }
 
     private suspend fun sendFile(file: File): Response<String> {
-        return UploadApi.instance.upload(
+        return uploadApi.upload(
             part = Part
                 .createFormData(
                     "file",
