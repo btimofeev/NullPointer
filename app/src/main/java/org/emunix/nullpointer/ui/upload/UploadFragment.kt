@@ -24,7 +24,11 @@ import org.emunix.nullpointer.databinding.FragmentUploadBinding
 class UploadFragment : Fragment() {
 
     private val viewModel: UploadViewModel by viewModels {
-        UploadViewModelFactory((requireActivity().application as App).appComponent.getUploadRepository())
+        val component = (requireActivity().application as App).appComponent
+        UploadViewModelFactory(
+            repository = component.getUploadRepository(),
+            history = component.getDatabaseRepository(),
+        )
     }
 
     private var _binding: FragmentUploadBinding? = null

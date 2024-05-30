@@ -51,6 +51,7 @@ dependencies {
     kapt(libs.daggerCompiler)
 
     implementation(project(":core:common"))
+    implementation(project(":core:database"))
     implementation(project(":feature:uploader:api"))
     implementation(project(":feature:uploader:impl"))
 
