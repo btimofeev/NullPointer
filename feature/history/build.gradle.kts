@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "org.emunix.nullpointer.uploader"
+    namespace = "org.emunix.nullpointer.history"
     compileSdk = 34
 
     defaultConfig {

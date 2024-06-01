@@ -54,6 +54,7 @@ dependencies {
     implementation(project(":core:impl"))
     implementation(project(":feature:main"))
     implementation(project(":feature:uploader"))
+    implementation(project(":feature:history"))
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

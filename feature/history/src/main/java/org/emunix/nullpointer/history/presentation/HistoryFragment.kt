@@ -1,4 +1,4 @@
-package org.emunix.nullpointer.main.ui.history
+package org.emunix.nullpointer.history.presentation
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import org.emunix.nullpointer.main.databinding.FragmentHistoryBinding
+import org.emunix.nullpointer.history.databinding.FragmentHistoryBinding
 
 class HistoryFragment : Fragment() {
 
@@ -38,5 +38,10 @@ class HistoryFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object {
+
+        fun newInstance() = HistoryFragment()
     }
 }

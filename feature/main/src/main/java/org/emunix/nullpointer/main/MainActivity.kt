@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.emunix.nullpointer.core.api.di.AppProviderHolder
+import org.emunix.nullpointer.core.api.navigation.HistoryScreenLauncher
 import org.emunix.nullpointer.core.api.navigation.UploadScreenLauncher
 import org.emunix.nullpointer.main.databinding.ActivityMainBinding
 import org.emunix.nullpointer.main.di.MainComponent
@@ -13,6 +14,9 @@ class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var uploadScreenLauncher: UploadScreenLauncher
+
+    @Inject
+    lateinit var historyScreenLauncher: HistoryScreenLauncher
 
     private lateinit var binding: ActivityMainBinding
 
@@ -28,6 +32,13 @@ class MainActivity : AppCompatActivity() {
             when (item.itemId) {
                 R.id.navigation_upload -> {
                     uploadScreenLauncher.launchUploadScreen(
+                        R.id.nav_host_fragment_activity_main,
+                        supportFragmentManager
+                    )
+                    true
+                }
+                R.id.navigation_history -> {
+                    historyScreenLauncher.launchHistoryScreen(
                         R.id.nav_host_fragment_activity_main,
                         supportFragmentManager
                     )

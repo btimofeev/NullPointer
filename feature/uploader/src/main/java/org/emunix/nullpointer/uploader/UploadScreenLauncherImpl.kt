@@ -9,7 +9,7 @@ class UploadScreenLauncherImpl @Inject constructor() : UploadScreenLauncher {
 
     override fun launchUploadScreen(containerId: Int, fragmentManager: FragmentManager) {
         fragmentManager.beginTransaction()
-            .add(containerId, UploadFragment.newInstance())
+            .replace(containerId, UploadFragment.newInstance())
             .commit()
     }
 }

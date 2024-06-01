@@ -19,8 +19,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.launch
 import org.emunix.nullpointer.core.api.di.AppProviderHolder
 import org.emunix.nullpointer.uploader.di.UploadComponent
-import org.emunix.nullpointer.uploader.impl.R
-import org.emunix.nullpointer.uploader.impl.databinding.FragmentUploadBinding
+import org.emunix.nullpointer.uploader.R
+import org.emunix.nullpointer.uploader.databinding.FragmentUploadBinding
 
 class UploadFragment : Fragment() {
 
