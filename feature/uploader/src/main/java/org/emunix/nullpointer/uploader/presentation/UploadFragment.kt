@@ -17,15 +17,15 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.launch
-import org.emunix.nullpointer.core.api.di.AppProvider
+import org.emunix.nullpointer.core.api.di.AppProviderHolder
+import org.emunix.nullpointer.uploader.di.UploadComponent
 import org.emunix.nullpointer.uploader.impl.R
 import org.emunix.nullpointer.uploader.impl.databinding.FragmentUploadBinding
-import org.emunix.nullpointer.uploader.di.UploadComponent
 
 class UploadFragment : Fragment() {
 
     private val viewModel: UploadViewModel by viewModels {
-        val appProvider = (requireActivity().application as AppProvider)
+        val appProvider = (requireActivity().application as AppProviderHolder).appProvider
         val uploadComponent = UploadComponent.create(appProvider)
         UploadViewModelFactory(
             repository = uploadComponent.getUploadRepository(),
@@ -92,5 +92,10 @@ class UploadFragment : Fragment() {
         } catch (e: ActivityNotFoundException) {
             Toast.makeText(requireContext(), R.string.error_choose_file_app_not_found, Toast.LENGTH_SHORT).show()
         }
+    }
+
+    companion object {
+
+        fun newInstance() = UploadFragment()
     }
 }
