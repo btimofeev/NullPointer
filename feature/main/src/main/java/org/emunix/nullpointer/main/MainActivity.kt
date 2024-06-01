@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.emunix.nullpointer.core.api.di.AppProviderHolder
 import org.emunix.nullpointer.core.api.navigation.HistoryScreenLauncher
+import org.emunix.nullpointer.core.api.navigation.SettingsScreenLauncher
 import org.emunix.nullpointer.core.api.navigation.UploadScreenLauncher
 import org.emunix.nullpointer.main.databinding.ActivityMainBinding
 import org.emunix.nullpointer.main.di.MainComponent
@@ -17,6 +18,9 @@ class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var historyScreenLauncher: HistoryScreenLauncher
+
+    @Inject
+    lateinit var settingsScreenLauncher: SettingsScreenLauncher
 
     private lateinit var binding: ActivityMainBinding
 
@@ -35,6 +39,7 @@ class MainActivity : AppCompatActivity() {
                         R.id.nav_host_fragment_activity_main,
                         supportFragmentManager
                     )
+                    supportActionBar?.title = getString(R.string.title_upload)
                     true
                 }
                 R.id.navigation_history -> {
@@ -42,6 +47,15 @@ class MainActivity : AppCompatActivity() {
                         R.id.nav_host_fragment_activity_main,
                         supportFragmentManager
                     )
+                    supportActionBar?.title = getString(R.string.title_history)
+                    true
+                }
+                R.id.navigation_settings -> {
+                    settingsScreenLauncher.launchSettingsScreen(
+                        R.id.nav_host_fragment_activity_main,
+                        supportFragmentManager
+                    )
+                    supportActionBar?.title = getString(R.string.title_settings)
                     true
                 }
                 else -> false

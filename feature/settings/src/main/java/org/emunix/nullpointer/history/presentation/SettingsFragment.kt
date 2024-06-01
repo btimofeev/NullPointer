@@ -1,4 +1,4 @@
-package org.emunix.nullpointer.main.ui.settings
+package org.emunix.nullpointer.history.presentation
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import org.emunix.nullpointer.main.databinding.FragmentSettingsBinding
+import org.emunix.nullpointer.settings.databinding.FragmentSettingsBinding
 
 class SettingsFragment : Fragment() {
 
@@ -36,5 +36,10 @@ class SettingsFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object {
+
+        fun newInstance() = SettingsFragment()
     }
 }
