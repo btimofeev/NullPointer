@@ -6,7 +6,6 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import org.emunix.nullpointer.core.api.data.HistoryDao
-import org.emunix.nullpointer.core.api.di.ApplicationContext
 import org.emunix.nullpointer.core.api.domain.DatabaseRepository
 import org.emunix.nullpointer.core.impl.data.AppDatabase
 import org.emunix.nullpointer.core.impl.data.DatabaseRepositoryImpl
@@ -22,7 +21,7 @@ interface DatabaseModule {
 
         @Provides
         @Singleton
-        internal fun provideDatabase(@ApplicationContext context: Context): AppDatabase =
+        internal fun provideDatabase(context: Context): AppDatabase =
             Room.databaseBuilder(context, AppDatabase::class.java, "app.db").build()
 
         @Provides

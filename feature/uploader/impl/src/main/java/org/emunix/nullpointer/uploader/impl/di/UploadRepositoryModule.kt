@@ -3,7 +3,6 @@ package org.emunix.nullpointer.uploader.impl.di
 import android.content.Context
 import dagger.Module
 import dagger.Provides
-import org.emunix.nullpointer.core.api.di.ApplicationContext
 import org.emunix.nullpointer.uploader.api.domain.UploadRepository
 import org.emunix.nullpointer.uploader.impl.data.api.UploadApi
 import org.emunix.nullpointer.uploader.impl.data.repository.UploadRepositoryMock
@@ -24,9 +23,8 @@ class UploadRepositoryModule {
             .create(UploadApi::class.java)
 
     @Provides
-    @Singleton
     fun provideUploadRepository(
-        @ApplicationContext context: Context,
+        context: Context,
         uploadApi: UploadApi,
     ): UploadRepository =
         UploadRepositoryImpl(

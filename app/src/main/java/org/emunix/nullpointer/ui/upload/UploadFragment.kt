@@ -20,14 +20,16 @@ import kotlinx.coroutines.launch
 import org.emunix.nullpointer.App
 import org.emunix.nullpointer.R
 import org.emunix.nullpointer.databinding.FragmentUploadBinding
+import org.emunix.nullpointer.di.UploadComponent
 
 class UploadFragment : Fragment() {
 
     private val viewModel: UploadViewModel by viewModels {
-        val component = (requireActivity().application as App).appComponent
+        val appComponent = (requireActivity().application as App).appComponent
+        val uploadComponent = UploadComponent.create(appComponent)
         UploadViewModelFactory(
-            repository = component.getUploadRepository(),
-            history = component.getDatabaseRepository(),
+            repository = uploadComponent.getUploadRepository(),
+            history = appComponent.getDatabaseRepository(),
         )
     }
 
