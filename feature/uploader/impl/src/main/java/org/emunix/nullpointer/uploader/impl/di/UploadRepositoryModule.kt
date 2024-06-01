@@ -3,10 +3,10 @@ package org.emunix.nullpointer.uploader.impl.di
 import android.content.Context
 import dagger.Module
 import dagger.Provides
-import org.emunix.nullpointer.core.common.di.ApplicationContext
-import org.emunix.nullpointer.uploader.impl.data.repository.UploadRepositoryImpl
+import org.emunix.nullpointer.core.api.di.ApplicationContext
 import org.emunix.nullpointer.uploader.api.domain.UploadRepository
 import org.emunix.nullpointer.uploader.impl.data.api.UploadApi
+import org.emunix.nullpointer.uploader.impl.data.repository.UploadRepositoryMock
 import retrofit2.Retrofit
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import javax.inject.Singleton

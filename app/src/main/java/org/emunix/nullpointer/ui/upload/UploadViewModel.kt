@@ -7,8 +7,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.emunix.nullpointer.uploader.api.domain.UploadRepository
-import org.emunix.nullpointer.core.common.UploadedFileModel
-import org.emunix.nullpointer.core.db.domain.DatabaseRepository
+import org.emunix.nullpointer.core.api.domain.UploadedFileModel
+import org.emunix.nullpointer.core.api.domain.DatabaseRepository
 import java.io.InputStream
 
 class UploadViewModel(

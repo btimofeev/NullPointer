@@ -2,12 +2,9 @@ package org.emunix.nullpointer.uploader.impl.data.repository
 
 import okhttp3.MultipartBody.Part
 import okhttp3.RequestBody
-import org.emunix.nullpointer.uploader.impl.data.api.UploadApi
+import org.emunix.nullpointer.core.api.domain.UploadedFileModel
 import org.emunix.nullpointer.uploader.api.domain.UploadRepository
-import org.emunix.nullpointer.core.common.CreateTempFileException
-import org.emunix.nullpointer.core.common.ResponseIsEmptyException
-import org.emunix.nullpointer.core.common.UploadFailedException
-import org.emunix.nullpointer.core.common.UploadedFileModel
+import org.emunix.nullpointer.uploader.impl.data.api.UploadApi
 import retrofit2.Response
 import java.io.File
 import java.io.IOException
@@ -26,7 +23,7 @@ class UploadRepositoryImpl(
         val tempFile = try {
             makeTempFile(fileName, stream)
         } catch (e: IOException) {
-            return Result.failure(CreateTempFileException())
+            return Result.failure(org.emunix.nullpointer.core.api.domain.CreateTempFileException())
         }
 
         return try {
@@ -55,7 +52,7 @@ class UploadRepositoryImpl(
 
     private fun getUploadedFileModel(response: Response<String>, file: File): Result<UploadedFileModel> {
         if (response.isSuccessful) {
-            val body = response.body() ?: return Result.failure(ResponseIsEmptyException())
+            val body = response.body() ?: return Result.failure(org.emunix.nullpointer.core.api.domain.ResponseIsEmptyException())
             return Result.success(
                 UploadedFileModel(
                     name = file.name,
@@ -65,7 +62,7 @@ class UploadRepositoryImpl(
                 )
             )
         } else {
-            return Result.failure(UploadFailedException())
+            return Result.failure(org.emunix.nullpointer.core.api.domain.UploadFailedException())
         }
     }
 

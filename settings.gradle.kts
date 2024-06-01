@@ -21,7 +21,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "Null Pointer"
 include(":app")
-include(":core:common")
-include(":core:database")
+include(":core:api")
+include(":core:impl")
 include(":feature:uploader:api")
 include(":feature:uploader:impl")

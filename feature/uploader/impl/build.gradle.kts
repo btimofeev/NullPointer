@@ -40,7 +40,7 @@ dependencies {
     implementation(libs.dagger)
     kapt(libs.daggerCompiler)
 
-    implementation(project(":core:common"))
+    implementation(project(":core:api"))
     implementation(project(":feature:uploader:api"))
 
     testImplementation(libs.junit)
