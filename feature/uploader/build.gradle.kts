@@ -1,21 +1,18 @@
 plugins {
-    alias(libs.plugins.androidApplication)
+    alias(libs.plugins.androidLibrary)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.jetbrainsKotlinKapt)
 }
 
 android {
-    namespace = "org.emunix.nullpointer"
+    namespace = "org.emunix.nullpointer.uploader.impl"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "org.emunix.nullpointer"
         minSdk = 24
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -46,14 +43,12 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
-
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.scalars)
     implementation(libs.dagger)
     kapt(libs.daggerCompiler)
 
     implementation(project(":core:api"))
-    implementation(project(":core:impl"))
-    implementation(project(":feature:main"))
-    implementation(project(":feature:uploader"))
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

@@ -1,0 +1,5 @@
+<resources>
+    <string name="title_upload">Upload</string>
+    <string name="title_history">History</string>
+    <string name="title_settings">Settings</string>
+</resources>

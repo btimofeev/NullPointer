@@ -23,5 +23,5 @@ rootProject.name = "Null Pointer"
 include(":app")
 include(":core:api")
 include(":core:impl")
-include(":feature:uploader:api")
-include(":feature:uploader:impl")
+include(":feature:main")
+include(":feature:uploader")

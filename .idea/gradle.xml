@@ -14,9 +14,8 @@
             <option value="$PROJECT_DIR$/core/api" />
             <option value="$PROJECT_DIR$/core/impl" />
             <option value="$PROJECT_DIR$/feature" />
+            <option value="$PROJECT_DIR$/feature/main" />
             <option value="$PROJECT_DIR$/feature/uploader" />
-            <option value="$PROJECT_DIR$/feature/uploader/api" />
-            <option value="$PROJECT_DIR$/feature/uploader/impl" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />
