@@ -1,13 +1,48 @@
 package org.emunix.nullpointer.history.presentation
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
+import org.emunix.nullpointer.core.api.domain.DatabaseRepository
+import org.emunix.nullpointer.core.api.domain.UploadedFileModel
+import org.emunix.nullpointer.history.presentation.model.HistoryItem
+import java.text.SimpleDateFormat
 
-class HistoryViewModel : ViewModel() {
+internal class HistoryViewModel(
+    private val history: DatabaseRepository,
+) : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is history screen"
+    private val _historyItems = MutableStateFlow<List<HistoryItem>>(emptyList())
+    private val dateFormatter by lazy { SimpleDateFormat.getDateTimeInstance() }
+
+    val historyItems: StateFlow<List<HistoryItem>> = _historyItems.asStateFlow()
+
+    fun init() {
+        observeHistory()
     }
-    val text: LiveData<String> = _text
+
+    fun onRemoveHistoryItem(item: HistoryItem) = viewModelScope.launch {
+        history.deleteFromHistory(item.url)
+    }
+
+    private fun observeHistory() = viewModelScope.launch {
+            history.getHistory()
+                .collect { items ->
+                    _historyItems.value = items
+                        .sortedByDescending { it.uploadDate }
+                        .toHistoryItems()
+                }
+        }
+
+    private fun List<UploadedFileModel>.toHistoryItems() =
+        this.map { item ->
+            HistoryItem(
+                fileName = item.name,
+                url = item.url,
+                uploadDate = dateFormatter.format(item.uploadDate),
+            )
+        }
 }

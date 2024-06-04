@@ -1,3 +1,4 @@
 <resources>
-
+    <string name="empty_history">The history is empty</string>
+    <string name="url_copied_to_clipboard">URL copied to clipboard</string>
 </resources>
