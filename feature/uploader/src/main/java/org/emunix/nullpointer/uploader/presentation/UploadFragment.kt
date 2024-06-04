@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
+import androidx.appcompat.app.AppCompatActivity
 import androidx.documentfile.provider.DocumentFile
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -18,6 +19,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.launch
 import org.emunix.nullpointer.core.api.di.AppProviderHolder
+import org.emunix.nullpointer.uikit.utils.handleSystemBarInsets
 import org.emunix.nullpointer.uploader.di.UploadComponent
 import org.emunix.nullpointer.uploader.R
 import org.emunix.nullpointer.uploader.databinding.FragmentUploadBinding
@@ -67,6 +69,7 @@ class UploadFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.uploadButton.setOnClickListener { selectFile() }
         setupObservers()
+        setupToolbar()
     }
 
     private fun setupObservers() {
@@ -81,6 +84,11 @@ class UploadFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun setupToolbar() {
+        (requireActivity() as AppCompatActivity).setSupportActionBar(binding.toolbar)
+        binding.toolbar.handleSystemBarInsets()
     }
 
     private fun selectFile() {

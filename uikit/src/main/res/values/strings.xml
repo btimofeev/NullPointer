@@ -1,4 +1,5 @@
 <resources>
+    <string name="app_name">Null Pointer</string>
     <string name="title_upload">Upload</string>
     <string name="title_history">History</string>
     <string name="title_settings">Settings</string>

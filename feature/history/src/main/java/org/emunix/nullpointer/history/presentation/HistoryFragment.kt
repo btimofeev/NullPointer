@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -25,6 +26,7 @@ import org.emunix.nullpointer.history.databinding.FragmentHistoryBinding
 import org.emunix.nullpointer.history.presentation.list.HistoryAdapter
 import org.emunix.nullpointer.history.presentation.list.HistoryItemTouchHelperCallback
 import org.emunix.nullpointer.history.presentation.model.HistoryItem
+import org.emunix.nullpointer.uikit.utils.handleSystemBarInsets
 
 internal class HistoryFragment : Fragment() {
 
@@ -61,8 +63,14 @@ internal class HistoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.init()
+        setupToolbar()
         setupList()
         setupObservers()
+    }
+
+    private fun setupToolbar() {
+        (requireActivity() as AppCompatActivity).setSupportActionBar(binding.toolbar)
+        binding.toolbar.handleSystemBarInsets()
     }
 
     private fun setupList() {

@@ -1,6 +1,7 @@
 package org.emunix.nullpointer.main
 
 import android.os.Bundle
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.emunix.nullpointer.core.api.di.AppProviderHolder
@@ -25,6 +26,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         MainComponent.create((application as AppProviderHolder).appProvider).inject(this)
 
@@ -39,7 +41,6 @@ class MainActivity : AppCompatActivity() {
                         R.id.nav_host_fragment_activity_main,
                         supportFragmentManager
                     )
-                    supportActionBar?.title = getString(R.string.title_upload)
                     true
                 }
                 R.id.navigation_history -> {
@@ -47,7 +48,6 @@ class MainActivity : AppCompatActivity() {
                         R.id.nav_host_fragment_activity_main,
                         supportFragmentManager
                     )
-                    supportActionBar?.title = getString(R.string.title_history)
                     true
                 }
                 R.id.navigation_settings -> {
@@ -55,7 +55,6 @@ class MainActivity : AppCompatActivity() {
                         R.id.nav_host_fragment_activity_main,
                         supportFragmentManager
                     )
-                    supportActionBar?.title = getString(R.string.title_settings)
                     true
                 }
                 else -> false

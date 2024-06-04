@@ -38,6 +38,8 @@ android {
 
 dependencies {
 
+    implementation(libs.material)
+
     implementation(libs.dagger)
     ksp(libs.daggerCompiler)
 
@@ -47,6 +49,7 @@ dependencies {
     implementation(project(":feature:uploader"))
     implementation(project(":feature:history"))
     implementation(project(":feature:settings"))
+    implementation(project(":uikit"))
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

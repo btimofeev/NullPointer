@@ -47,6 +47,7 @@ dependencies {
     ksp(libs.daggerCompiler)
 
     implementation(project(":core:api"))
+    implementation(project(":uikit"))
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

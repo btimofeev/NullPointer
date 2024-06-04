@@ -1,5 +1,4 @@
 <resources>
-    <string name="title_upload">Upload</string>
     <string name="upload_file">Upload file</string>
     <string name="error_choose_file_app_not_found">Failed to open file picker application</string>
 </resources>
