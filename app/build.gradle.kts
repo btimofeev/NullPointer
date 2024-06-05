@@ -6,11 +6,11 @@ plugins {
 
 android {
     namespace = "org.emunix.nullpointer"
-    compileSdk = 34
+    compileSdk = rootProject.extra["compileSdkVersion"] as Int
 
     defaultConfig {
         applicationId = "org.emunix.nullpointer"
-        minSdk = 24
+        minSdk = rootProject.extra["minSdkVersion"] as Int
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
