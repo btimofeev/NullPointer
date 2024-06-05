@@ -17,7 +17,6 @@ import androidx.core.view.MenuProvider
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Lifecycle.State
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -53,6 +52,22 @@ internal class HistoryFragment : Fragment() {
         )
     }
 
+    private val historyMenuProvider = object : MenuProvider {
+        override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+            menuInflater.inflate(R.menu.menu_history, menu)
+        }
+
+        override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+            return when(menuItem.itemId){
+                R.id.action_clear_history -> {
+                    onClearHistoryClick()
+                    true
+                }
+                else -> false
+            }
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -73,7 +88,6 @@ internal class HistoryFragment : Fragment() {
         setupToolbar()
         setupList()
         setupObservers()
-        setupMenu()
     }
 
     private fun setupToolbar() {
@@ -105,28 +119,25 @@ internal class HistoryFragment : Fragment() {
         }
     }
 
-    private fun setupMenu() {
-        (requireActivity() as? MenuHost)?.addMenuProvider(object : MenuProvider {
-            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu.menu_history, menu)
-            }
+    private fun showMenu() {
+        (activity as? MenuHost)?.addMenuProvider(historyMenuProvider, viewLifecycleOwner, State.RESUMED)
+    }
 
-            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                return when(menuItem.itemId){
-                    R.id.action_clear_history -> {
-                        onClearHistoryClick()
-                        true
-                    }
-                    else -> false
-                }
-            }
-        }, viewLifecycleOwner, State.RESUMED)
+    private fun hideMenu() {
+        (activity as? MenuHost)?.removeMenuProvider(historyMenuProvider)
     }
 
     private fun showHistory(items: List<HistoryItem>) {
-        binding.emptyHistory.isVisible = items.isEmpty()
-        binding.list.isVisible = items.isNotEmpty()
-        listAdapter.submitList(items)
+        if (items.isEmpty()) {
+            binding.emptyHistory.isVisible = true
+            binding.list.isVisible = false
+            hideMenu()
+        } else {
+            binding.emptyHistory.isVisible = false
+            binding.list.isVisible = true
+            listAdapter.submitList(items)
+            showMenu()
+        }
     }
 
     private fun onItemClick(item: HistoryItem) {
@@ -141,7 +152,6 @@ internal class HistoryFragment : Fragment() {
     private fun onClearHistoryClick() {
         context?.let { ctx ->
             MaterialAlertDialogBuilder(ctx)
-                //.setTitle(R.string.dialog_delete_game_title)
                 .setMessage(R.string.do_you_want_clear_history)
                 .setPositiveButton(R.string.yes) { _, _ ->
                     viewModel.onClearHistoryClick()
