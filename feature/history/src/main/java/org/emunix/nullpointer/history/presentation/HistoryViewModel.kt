@@ -28,6 +28,10 @@ internal class HistoryViewModel(
         history.deleteFromHistory(item.url)
     }
 
+    fun onClearHistoryClick() = viewModelScope.launch {
+        history.clearHistory()
+    }
+
     private fun observeHistory() = viewModelScope.launch {
             history.getHistory()
                 .collect { items ->

@@ -18,7 +18,8 @@
         app:titleTextAppearance="@style/ToolbarTextAppearance"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:menu="@menu/menu_history" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"

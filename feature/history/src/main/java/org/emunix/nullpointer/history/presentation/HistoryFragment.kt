@@ -5,13 +5,19 @@ import android.content.ClipboardManager
 import android.content.Context.CLIPBOARD_SERVICE
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Lifecycle.State
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -19,6 +25,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.launch
 import org.emunix.nullpointer.core.api.di.AppProviderHolder
 import org.emunix.nullpointer.history.R
@@ -66,6 +73,7 @@ internal class HistoryFragment : Fragment() {
         setupToolbar()
         setupList()
         setupObservers()
+        setupMenu()
     }
 
     private fun setupToolbar() {
@@ -97,6 +105,24 @@ internal class HistoryFragment : Fragment() {
         }
     }
 
+    private fun setupMenu() {
+        (requireActivity() as? MenuHost)?.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.menu_history, menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return when(menuItem.itemId){
+                    R.id.action_clear_history -> {
+                        onClearHistoryClick()
+                        true
+                    }
+                    else -> false
+                }
+            }
+        }, viewLifecycleOwner, State.RESUMED)
+    }
+
     private fun showHistory(items: List<HistoryItem>) {
         binding.emptyHistory.isVisible = items.isEmpty()
         binding.list.isVisible = items.isNotEmpty()
@@ -109,6 +135,22 @@ internal class HistoryFragment : Fragment() {
             val clip = ClipData.newPlainText(item.url, item.url)
             clipboard?.setPrimaryClip(clip)
             Toast.makeText(ctx, getString(R.string.url_copied_to_clipboard), Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun onClearHistoryClick() {
+        context?.let { ctx ->
+            MaterialAlertDialogBuilder(ctx)
+                //.setTitle(R.string.dialog_delete_game_title)
+                .setMessage(R.string.do_you_want_clear_history)
+                .setPositiveButton(R.string.yes) { _, _ ->
+                    viewModel.onClearHistoryClick()
+                }
+                .setNegativeButton(R.string.no) { dialog, _ ->
+                    dialog.cancel()
+                }
+                .create()
+                .show()
         }
     }
 
