@@ -25,6 +25,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
+    private val navView: BottomNavigationView by lazy { binding.navView }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
@@ -33,7 +35,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val navView: BottomNavigationView = binding.navView
         navView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_upload -> {
@@ -61,6 +62,20 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        navView.selectedItemId = R.id.navigation_upload
+        if (savedInstanceState != null) {
+            navView.selectedItemId = savedInstanceState.getInt(SELECTED_SCREEN, R.id.navigation_upload)
+        } else {
+            navView.selectedItemId = R.id.navigation_upload
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt(SELECTED_SCREEN, navView.selectedItemId)
+    }
+
+    companion object {
+
+        const val SELECTED_SCREEN = "SELECTED_SCREEN"
     }
 }

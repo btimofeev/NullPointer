@@ -7,9 +7,11 @@ import javax.inject.Inject
 
 class HistoryScreenLauncherImpl @Inject constructor() : HistoryScreenLauncher {
 
+    private var instance: HistoryFragment? = null
+
     override fun launchHistoryScreen(containerId: Int, fragmentManager: FragmentManager) {
         fragmentManager.beginTransaction()
-            .replace(containerId, HistoryFragment.newInstance())
+            .replace(containerId, instance ?: HistoryFragment.newInstance().also { instance = it })
             .commit()
     }
 }
