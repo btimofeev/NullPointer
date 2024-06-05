@@ -7,11 +7,9 @@ import javax.inject.Inject
 
 class UploadScreenLauncherImpl @Inject constructor() : UploadScreenLauncher {
 
-    private var instance: UploadFragment? = null
-
     override fun launchUploadScreen(containerId: Int, fragmentManager: FragmentManager) {
         fragmentManager.beginTransaction()
-            .replace(containerId, instance ?: UploadFragment.newInstance().also { instance = it })
+            .replace(containerId, UploadFragment.newInstance())
             .commit()
     }
 }
