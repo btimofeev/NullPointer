@@ -9,25 +9,24 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
 import androidx.documentfile.provider.DocumentFile
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.launch
 import org.emunix.nullpointer.core.api.di.AppProviderHolder
 import org.emunix.nullpointer.uikit.utils.handleSystemBarInsets
-import org.emunix.nullpointer.uploader.di.UploadComponent
 import org.emunix.nullpointer.uploader.R
 import org.emunix.nullpointer.uploader.databinding.FragmentUploadBinding
+import org.emunix.nullpointer.uploader.di.UploadComponent
 
 class UploadFragment : Fragment() {
 
-    private val viewModel: UploadViewModel by viewModels {
+    private val viewModel: UploadViewModel by activityViewModels {
         val appProvider = (requireActivity().application as AppProviderHolder).appProvider
         val uploadComponent = UploadComponent.create(appProvider)
         UploadViewModelFactory(
