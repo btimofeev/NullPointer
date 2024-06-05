@@ -14,6 +14,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -104,6 +106,10 @@ internal class HistoryFragment : Fragment() {
             val itemTouchHelper = ItemTouchHelper(callback)
             itemTouchHelper.attachToRecyclerView(this)
             addItemDecoration(DividerItemDecoration(context, listLayoutManager.orientation))
+
+            ViewCompat.setOnApplyWindowInsetsListener(this) { v, windowInsets ->
+                WindowInsetsCompat.CONSUMED
+            }
         }
     }
 
