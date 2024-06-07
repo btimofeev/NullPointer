@@ -11,6 +11,7 @@ import javax.inject.Singleton
     modules = [
         DatabaseModule::class,
         NavigationModule::class,
+        NotificationsModule::class,
     ]
 )
 @Singleton

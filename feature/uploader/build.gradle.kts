@@ -45,6 +45,7 @@ dependencies {
     implementation(libs.retrofit.converter.scalars)
     implementation(libs.dagger)
     ksp(libs.daggerCompiler)
+    implementation(libs.workManager)
 
     implementation(project(":core:api"))
     implementation(project(":uikit"))

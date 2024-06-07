@@ -33,6 +33,9 @@ android {
 dependencies {
 
     implementation(project(":core:api"))
+    implementation(project(":uikit"))
+
+    implementation(libs.androidx.core.ktx)
 
     implementation(libs.dagger)
     ksp(libs.daggerCompiler)

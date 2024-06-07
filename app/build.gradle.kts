@@ -39,6 +39,7 @@ android {
 dependencies {
 
     implementation(libs.material)
+    implementation(libs.workManager)
 
     implementation(libs.dagger)
     ksp(libs.daggerCompiler)

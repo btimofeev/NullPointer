@@ -6,39 +6,42 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import org.emunix.nullpointer.uploader.domain.UploadRepository
-import org.emunix.nullpointer.core.api.domain.UploadedFileModel
-import org.emunix.nullpointer.core.api.domain.DatabaseRepository
-import java.io.InputStream
+import org.emunix.nullpointer.uploader.domain.model.UploadStatus.Cancelled
+import org.emunix.nullpointer.uploader.domain.model.UploadStatus.Failed
+import org.emunix.nullpointer.uploader.domain.model.UploadStatus.Unavailable
+import org.emunix.nullpointer.uploader.domain.model.UploadStatus.Running
+import org.emunix.nullpointer.uploader.domain.model.UploadStatus.Success
+import org.emunix.nullpointer.uploader.work.UploadWorkManager
 
-class UploadViewModel(
-    private val repository: UploadRepository,
-    private val history: DatabaseRepository,
+internal class UploadViewModel(
+    private val uploadWorkManager: UploadWorkManager,
 ) : ViewModel() {
 
     private val _url = MutableStateFlow<String?>(null)
 
     val url: StateFlow<String?> = _url.asStateFlow()
 
-    fun uploadFile(
-        fileName: String,
-        stream: InputStream,
-    ) {
-        viewModelScope.launch {
-            repository.upload(fileName, stream)
-                .onSuccess {
-                    showUrl(it)
-                    addToHistory(it)
-                }
-                .onFailure { _url.value = "Не удалось загрузить файл" }
+    init {
+        observeUploadWork()
+    }
+
+    fun uploadFile(fileName: String, uri: String) {
+        uploadWorkManager.startUpload(fileName, uri)
+    }
+
+    private fun observeUploadWork() = viewModelScope.launch {
+        uploadWorkManager.observeUpload().collect { status ->
+            when (status) {
+                is Running -> println("work is running")
+                is Success -> showUrl(status.url)
+                is Failed -> println("work is failed")
+                is Cancelled -> println("work is cancelled")
+                is Unavailable -> Unit
+            }
         }
     }
 
-    private fun showUrl(model: UploadedFileModel) {
-        _url.value = model.url
-    }
-
-    private suspend fun addToHistory(model: UploadedFileModel) {
-        history.addToHistory(model.url, model.name, model.size, model.uploadDate)
+    private fun showUrl(url: String) {
+        _url.value = url
     }
 }

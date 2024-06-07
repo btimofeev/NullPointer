@@ -4,11 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import org.emunix.nullpointer.core.api.domain.DatabaseRepository
 import org.emunix.nullpointer.uploader.domain.UploadRepository
+import org.emunix.nullpointer.uploader.work.UploadWorkManager
 
-class UploadViewModelFactory(
-    private val repository: UploadRepository,
-    private val history: DatabaseRepository,
+internal class UploadViewModelFactory(
+    private val uploadWorkManager: UploadWorkManager,
 ) : ViewModelProvider.NewInstanceFactory() {
 
-    override fun <T : ViewModel> create(modelClass: Class<T>): T = UploadViewModel(repository, history) as T
+    override fun <T : ViewModel> create(modelClass: Class<T>): T = UploadViewModel(uploadWorkManager) as T
 }

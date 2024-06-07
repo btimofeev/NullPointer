@@ -1,0 +1,9 @@
+package org.emunix.nullpointer.uploader.work
+
+const val UPLOAD_WORK_NAME_KEY = "UPLOAD_WORK_NAME"
+
+const val UPLOAD_WORK_PARAM_FILE_NAME_KEY = "UPLOAD_WORK_PARAM_FILE_NAME"
+
+const val UPLOAD_WORK_PARAM_URI_KEY = "UPLOAD_WORK_PARAM_URI"
+
+const val UPLOAD_WORK_RESULT_KEY = "UPLOAD_WORK_RESULT"

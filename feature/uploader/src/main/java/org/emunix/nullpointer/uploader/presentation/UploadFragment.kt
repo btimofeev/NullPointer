@@ -22,16 +22,14 @@ import org.emunix.nullpointer.core.api.di.AppProviderHolder
 import org.emunix.nullpointer.uikit.utils.handleSystemBarInsets
 import org.emunix.nullpointer.uploader.R
 import org.emunix.nullpointer.uploader.databinding.FragmentUploadBinding
-import org.emunix.nullpointer.uploader.di.UploadComponent
+import org.emunix.nullpointer.uploader.work.UploadWorkManagerImpl
 
 class UploadFragment : Fragment() {
 
     private val viewModel: UploadViewModel by activityViewModels {
         val appProvider = (requireActivity().application as AppProviderHolder).appProvider
-        val uploadComponent = UploadComponent.create(appProvider)
         UploadViewModelFactory(
-            repository = uploadComponent.getUploadRepository(),
-            history = appProvider.getDatabaseRepository(),
+            uploadWorkManager = UploadWorkManagerImpl(appProvider.getContext())
         )
     }
 
@@ -44,9 +42,7 @@ class UploadFragment : Fragment() {
             result.data?.data?.let { uri ->
                 val document = DocumentFile.fromSingleUri(requireContext(), uri)
                 val fileName = document?.name.orEmpty()
-                context?.contentResolver?.openInputStream(uri)?.let { inputStream ->
-                    viewModel.uploadFile(fileName, inputStream)
-                }
+                viewModel.uploadFile(fileName, uri.toString())
             }
         }
     }
