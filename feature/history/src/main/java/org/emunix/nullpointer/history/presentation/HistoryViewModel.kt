@@ -9,6 +9,7 @@ import kotlinx.coroutines.launch
 import org.emunix.nullpointer.core.api.domain.DatabaseRepository
 import org.emunix.nullpointer.core.api.domain.UploadedFileModel
 import org.emunix.nullpointer.history.presentation.model.HistoryItem
+import org.emunix.nullpointer.history.utils.getIconResForFile
 import java.text.SimpleDateFormat
 
 internal class HistoryViewModel(
@@ -47,6 +48,7 @@ internal class HistoryViewModel(
                 fileName = item.name,
                 url = item.url,
                 uploadDate = dateFormatter.format(item.uploadDate),
+                iconRes = getIconResForFile(item.name)
             )
         }
 }

@@ -6,6 +6,20 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:src="@drawable/ic_image_24dp"
+        android:padding="8dp"
+        android:layout_margin="16dp"
+        android:background="@drawable/circle"
+        android:backgroundTint="?colorTertiaryFixed"
+        app:tint="?colorOnTertiaryFixed"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/name"
         android:layout_width="0dp"
@@ -16,7 +30,7 @@
         android:textAppearance="@android:style/TextAppearance.Material.Subhead"
         android:textIsSelectable="true"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/icon"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="File name"/>
 
@@ -31,7 +45,7 @@
         android:textIsSelectable="true"
         app:layout_constraintBottom_toTopOf="@id/uploadDate"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/icon"
         app:layout_constraintTop_toBottomOf="@id/name"
         tools:text="https://0x0.st/a3Tg"/>
 
@@ -47,7 +61,7 @@
         android:textIsSelectable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/icon"
         app:layout_constraintTop_toBottomOf="@id/url"
         tools:text="Upload date: 2024-05-10 20:36"/>
 

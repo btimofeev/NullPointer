@@ -25,6 +25,7 @@ internal class HistoryAdapter(
             name.text = item.fileName
             url.text = item.url
             uploadDate.text = item.uploadDate
+            icon.setImageResource(item.iconRes)
             root.setOnClickListener { onClickListener(item) }
         }
     }
