@@ -42,6 +42,8 @@ internal class HistoryFragment : Fragment() {
 
     private val binding get() = _binding!!
 
+    private var isClearHistoryMenuVisible = false
+
     private val listAdapter: HistoryAdapter = HistoryAdapter(
         onClickListener = { item -> onItemClick(item) },
         onItemRemoved = { item -> viewModel.onRemoveHistoryItem(item) },
@@ -55,6 +57,13 @@ internal class HistoryFragment : Fragment() {
     }
 
     private val historyMenuProvider = object : MenuProvider {
+
+        override fun onPrepareMenu(menu: Menu) {
+            super.onPrepareMenu(menu)
+            val clearHistoryItem = menu.findItem(R.id.action_clear_history)
+            clearHistoryItem?.isVisible = isClearHistoryMenuVisible
+        }
+
         override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
             menuInflater.inflate(R.menu.menu_history, menu)
         }
@@ -95,6 +104,7 @@ internal class HistoryFragment : Fragment() {
     private fun setupToolbar() {
         (requireActivity() as AppCompatActivity).setSupportActionBar(binding.toolbar)
         binding.toolbar.handleSystemBarInsets()
+        addMenu()
     }
 
     private fun setupList() {
@@ -125,25 +135,26 @@ internal class HistoryFragment : Fragment() {
         }
     }
 
-    private fun showMenu() {
+    private fun addMenu() {
         (activity as? MenuHost)?.addMenuProvider(historyMenuProvider, viewLifecycleOwner, State.RESUMED)
     }
 
-    private fun hideMenu() {
-        (activity as? MenuHost)?.removeMenuProvider(historyMenuProvider)
+    private fun updateMenu() {
+        (activity as? MenuHost)?.invalidateMenu()
     }
 
     private fun showHistory(items: List<HistoryItem>) {
         if (items.isEmpty()) {
             binding.emptyHistory.isVisible = true
             binding.list.isVisible = false
-            hideMenu()
+            isClearHistoryMenuVisible = false
         } else {
             binding.emptyHistory.isVisible = false
             binding.list.isVisible = true
             listAdapter.submitList(items)
-            showMenu()
+            isClearHistoryMenuVisible = true
         }
+        updateMenu()
     }
 
     private fun onItemClick(item: HistoryItem) {
