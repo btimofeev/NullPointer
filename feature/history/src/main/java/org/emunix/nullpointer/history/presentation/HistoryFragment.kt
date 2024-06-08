@@ -128,7 +128,7 @@ internal class HistoryFragment : Fragment() {
             repeatOnLifecycle(State.STARTED) {
                 launch {
                     viewModel.historyItems.collect { items ->
-                        showHistory(items)
+                        binding.showHistory(items)
                     }
                 }
             }
@@ -143,14 +143,18 @@ internal class HistoryFragment : Fragment() {
         (activity as? MenuHost)?.invalidateMenu()
     }
 
-    private fun showHistory(items: List<HistoryItem>) {
+    private fun FragmentHistoryBinding.showHistory(items: List<HistoryItem>) {
         if (items.isEmpty()) {
-            binding.emptyHistory.isVisible = true
-            binding.list.isVisible = false
+            emptyHistory.isVisible = true
+            emptyHistoryAnim.isVisible = true
+            emptyHistoryAnim.playAnimation()
+            list.isVisible = false
             isClearHistoryMenuVisible = false
         } else {
-            binding.emptyHistory.isVisible = false
-            binding.list.isVisible = true
+            emptyHistory.isVisible = false
+            emptyHistoryAnim.isVisible = false
+            emptyHistoryAnim.cancelAnimation()
+            list.isVisible = true
             listAdapter.submitList(items)
             isClearHistoryMenuVisible = true
         }

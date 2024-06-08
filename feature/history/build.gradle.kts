@@ -43,6 +43,7 @@ dependencies {
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.scalars)
+    implementation(libs.lottie)
     implementation(libs.dagger)
     ksp(libs.daggerCompiler)
 

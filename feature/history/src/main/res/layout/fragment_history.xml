@@ -11,26 +11,38 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
-        app:title="@string/title_history"
-        app:titleCentered="true"
-        app:titleTextAppearance="@style/ToolbarTextAppearance"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/title_history"
+        app:titleCentered="true"
+        app:titleTextAppearance="@style/ToolbarTextAppearance"
         tools:menu="@menu/menu_history" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:scrollbars="vertical"
         android:scrollbarStyle="outsideOverlay"
+        android:scrollbars="vertical"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
         tools:listitem="@layout/history_item" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/empty_history_anim"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
+        app:layout_constraintBottom_toTopOf="@id/empty_history"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:lottie_fileName="history_is_empty.lottie"
+        app:lottie_autoPlay="true" />
 
     <TextView
         android:id="@+id/empty_history"
@@ -39,12 +51,12 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:text="@string/empty_history"
         android:textAlignment="center"
         android:textSize="20sp"
-        android:text="@string/empty_history"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+        app:layout_constraintTop_toBottomOf="@id/empty_history_anim" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

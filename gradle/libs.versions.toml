@@ -16,6 +16,7 @@ dagger = "2.51.1"
 jetbrainsKotlinJvm = "1.9.0"
 room = "2.6.1"
 workManager = "2.9.0"
+lottie = "6.4.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -35,6 +36,7 @@ room = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 roomCompiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 workManager = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "workManager"}
+lottie = { group = "com.airbnb.android", name = "lottie", version.ref = "lottie" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
