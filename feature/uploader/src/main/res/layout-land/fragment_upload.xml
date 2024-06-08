@@ -22,8 +22,8 @@
         android:id="@+id/anim"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/guideline"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:lottie_autoPlay="true"
@@ -34,8 +34,8 @@
         android:id="@+id/guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.6" />
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
 
     <TextView
         android:id="@+id/main_text"
@@ -46,10 +46,10 @@
         android:textAlignment="center"
         android:textIsSelectable="true"
         android:textSize="20sp"
-        android:paddingBottom="24dp"
+        android:paddingVertical="24dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/guideline"
+        app:layout_constraintStart_toStartOf="@id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
         tools:text="Main text"/>
 
     <com.google.android.material.button.MaterialButton
@@ -62,7 +62,7 @@
         android:drawableTint="@macro/m3_comp_filled_tonal_button_label_text_color"
         android:visibility="gone"
         app:layout_constraintEnd_toStartOf="@id/share_button"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guideline"
         app:layout_constraintTop_toBottomOf="@id/main_text" />
 
     <com.google.android.material.button.MaterialButton
@@ -88,7 +88,7 @@
         android:drawableTint="@macro/m3_comp_filled_tonal_button_label_text_color"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guideline"
         app:layout_constraintTop_toBottomOf="@id/main_text" />
 
     <com.google.android.material.button.MaterialButton
@@ -99,7 +99,7 @@
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/share_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

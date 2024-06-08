@@ -46,6 +46,7 @@ dependencies {
     implementation(libs.dagger)
     ksp(libs.daggerCompiler)
     implementation(libs.workManager)
+    implementation(libs.lottie)
 
     implementation(project(":core:api"))
     implementation(project(":uikit"))

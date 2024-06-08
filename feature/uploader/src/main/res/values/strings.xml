@@ -1,4 +1,11 @@
 <resources>
     <string name="upload_file">Upload file</string>
+    <string name="choose_file_to_upload">Choose file to upload</string>
+    <string name="please_wait">Upload in progress, please wait..</string>
+    <string name="upload_failed">Sorry, the upload failed</string>
+    <string name="upload_success">Your file has been uploaded:\n %1$s</string>
+    <string name="copy_to_clipboard">Copy link</string>
+    <string name="share">Share</string>
+    <string name="try_again">Try again</string>
     <string name="error_choose_file_app_not_found">Failed to open file picker application</string>
 </resources>
