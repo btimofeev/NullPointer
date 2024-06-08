@@ -92,6 +92,19 @@
         app:layout_constraintTop_toBottomOf="@id/main_text" />
 
     <com.google.android.material.button.MaterialButton
+        style="@style/Widget.Material3.Button.TonalButton"
+        android:id="@+id/cancel_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cancel_upload"
+        android:drawableLeft="@drawable/ic_cancel_24dp"
+        android:drawableTint="@macro/m3_comp_filled_tonal_button_label_text_color"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/main_text" />
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/choose_file_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

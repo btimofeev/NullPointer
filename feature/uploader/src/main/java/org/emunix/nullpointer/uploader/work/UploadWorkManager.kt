@@ -24,6 +24,8 @@ internal interface UploadWorkManager {
     )
 
     fun observeUpload(): Flow<UploadStatus>
+
+    fun cancelUpload()
 }
 
 internal class UploadWorkManagerImpl(
@@ -77,5 +79,9 @@ internal class UploadWorkManagerImpl(
                     }
                 } else UploadStatus.Unavailable
             }
+    }
+
+    override fun cancelUpload() {
+        WorkManager.getInstance(context).cancelUniqueWork(UPLOAD_WORK_NAME_KEY)
     }
 }

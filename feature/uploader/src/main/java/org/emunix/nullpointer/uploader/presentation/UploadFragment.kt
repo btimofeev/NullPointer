@@ -119,6 +119,7 @@ class UploadFragment : Fragment() {
         copyToClipboardButton.isVisible = false
         shareButton.isVisible = false
         tryAgainButton.isVisible = false
+        cancelButton.isVisible = false
         mainText.isVisible = false
     }
 
@@ -129,6 +130,8 @@ class UploadFragment : Fragment() {
         copyToClipboardButton.isVisible = false
         shareButton.isVisible = false
         tryAgainButton.isVisible = false
+        cancelButton.isVisible = true
+        cancelButton.setOnClickListener { viewModel.cancelUpload() }
         mainText.isVisible = true
         mainText.text = getText(R.string.please_wait)
     }
@@ -140,6 +143,7 @@ class UploadFragment : Fragment() {
         copyToClipboardButton.isVisible = true
         shareButton.isVisible = true
         tryAgainButton.isVisible = false
+        cancelButton.isVisible = false
         mainText.isVisible = true
         mainText.text = getString(R.string.upload_success, url)
         copyToClipboardButton.setOnClickListener { copyToClipboard(url) }
@@ -154,6 +158,7 @@ class UploadFragment : Fragment() {
         shareButton.isVisible = false
         tryAgainButton.isVisible = true
         tryAgainButton.setOnClickListener { viewModel.tryAgain() }
+        cancelButton.isVisible = false
         mainText.isVisible = true
         mainText.text = getText(R.string.upload_failed)
     }

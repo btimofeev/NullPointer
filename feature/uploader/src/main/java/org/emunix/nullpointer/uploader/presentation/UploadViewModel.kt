@@ -38,6 +38,10 @@ internal class UploadViewModel(
         uploadWorkManager.startUpload(fileName, uri)
     }
 
+    fun cancelUpload() {
+        uploadWorkManager.cancelUpload()
+    }
+
     fun tryAgain() {
         uploadFile(lastSelectedFileName, lastSelectedUri)
     }
