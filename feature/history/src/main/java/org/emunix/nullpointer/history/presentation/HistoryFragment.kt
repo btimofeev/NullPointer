@@ -128,7 +128,7 @@ internal class HistoryFragment : Fragment() {
             repeatOnLifecycle(State.STARTED) {
                 launch {
                     viewModel.historyItems.collect { items ->
-                        binding.showHistory(items)
+                        if (items != null) binding.showHistory(items)
                     }
                 }
             }

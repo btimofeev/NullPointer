@@ -15,10 +15,10 @@ internal class HistoryViewModel(
     private val history: DatabaseRepository,
 ) : ViewModel() {
 
-    private val _historyItems = MutableStateFlow<List<HistoryItem>>(emptyList())
+    private val _historyItems = MutableStateFlow<List<HistoryItem>?>(null)
     private val dateFormatter by lazy { SimpleDateFormat.getDateTimeInstance() }
 
-    val historyItems: StateFlow<List<HistoryItem>> = _historyItems.asStateFlow()
+    val historyItems: StateFlow<List<HistoryItem>?> = _historyItems.asStateFlow()
 
     fun init() {
         observeHistory()
