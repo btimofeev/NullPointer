@@ -5,6 +5,7 @@ import dagger.BindsInstance
 import dagger.Component
 import org.emunix.nullpointer.core.api.di.AppProvider
 import org.emunix.nullpointer.core.impl.di.DatabaseModule
+import org.emunix.nullpointer.core.impl.di.PreferencesModule
 import javax.inject.Singleton
 
 @Component(
@@ -12,6 +13,7 @@ import javax.inject.Singleton
         DatabaseModule::class,
         NavigationModule::class,
         NotificationsModule::class,
+        PreferencesModule::class,
     ]
 )
 @Singleton

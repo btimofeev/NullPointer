@@ -9,6 +9,7 @@ import com.google.android.material.color.DynamicColors
 import org.emunix.nullpointer.core.api.CHANNEL_UPLOAD_FILE
 import org.emunix.nullpointer.core.api.di.AppProviderHolder
 import org.emunix.nullpointer.di.DaggerApplicationComponent
+import org.emunix.nullpointer.uikit.theme.ThemeSwitcher
 import org.emunix.nullpointer.work.AppWorkerFactory
 
 class App : Application(), AppProviderHolder, Configuration.Provider {
@@ -25,7 +26,8 @@ class App : Application(), AppProviderHolder, Configuration.Provider {
         super.onCreate()
 
         setupNotificationChannels()
-        DynamicColors.applyToActivitiesIfAvailable(this);
+        ThemeSwitcher().set(appProvider.getPreferencesProvider().appTheme)
+        DynamicColors.applyToActivitiesIfAvailable(this)
     }
 
     private fun setupNotificationChannels() {

@@ -41,6 +41,7 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.fragment.ktx)
+    implementation(libs.androidx.preference.ktx)
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.scalars)
     implementation(libs.dagger)

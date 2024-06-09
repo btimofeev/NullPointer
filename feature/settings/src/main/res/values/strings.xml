@@ -1,3 +1,9 @@
 <resources>
 
+    <string name="prefs_category_interface">User interface</string>
+    <string name="prefs_theme">Application theme</string>
+    <string name="prefs_theme_dialog_title">Select theme</string>
+    <string name="prefs_theme_name_light">Light</string>
+    <string name="prefs_theme_name_dark">Dark</string>
+    <string name="prefs_theme_name_default">Use system default</string>
 </resources>

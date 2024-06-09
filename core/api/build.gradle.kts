@@ -32,6 +32,8 @@ android {
 
 dependencies {
 
+    implementation(project(":uikit"))
+
     implementation(libs.androidx.appcompat)
 
     implementation(libs.dagger)
