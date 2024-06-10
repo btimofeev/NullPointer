@@ -2,10 +2,19 @@ package org.emunix.nullpointer.uploader.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import org.emunix.nullpointer.core.api.domain.PreferencesProvider
+import org.emunix.nullpointer.core.api.domain.ShareAction.COPY_URL_TO_CLIPBOARD
+import org.emunix.nullpointer.core.api.domain.ShareAction.NONE
+import org.emunix.nullpointer.core.api.domain.ShareAction.SHARE_URL
+import org.emunix.nullpointer.uikit.model.Action
+import org.emunix.nullpointer.uikit.model.Action.CopyLink
+import org.emunix.nullpointer.uikit.model.Action.ShareLink
 import org.emunix.nullpointer.uploader.domain.model.UploadStatus.Cancelled
 import org.emunix.nullpointer.uploader.domain.model.UploadStatus.Failed
 import org.emunix.nullpointer.uploader.domain.model.UploadStatus.Unavailable
@@ -20,13 +29,16 @@ import org.emunix.nullpointer.uploader.work.UploadWorkManager
 
 internal class UploadViewModel(
     private val uploadWorkManager: UploadWorkManager,
+    private val preferencesProvider: PreferencesProvider,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow<ScreenState>(ChooseFileState)
+    private val _command = Channel<Action>()
     private var lastSelectedFileName: String = ""
     private var lastSelectedUri: String = ""
 
     val screenState: StateFlow<ScreenState> = _state.asStateFlow()
+    val command = _command.receiveAsFlow()
 
     init {
         observeUploadWork()
@@ -50,7 +62,7 @@ internal class UploadViewModel(
         uploadWorkManager.observeUpload().collect { status ->
             when (status) {
                 is Running -> setScreenState(UploadInProgressState)
-                is Success -> setScreenState(UploadSuccess(status.url))
+                is Success -> setScreenState(UploadSuccess(status.url)).also { performAutoAction(status.url) }
                 is Failed -> setScreenState(UploadFailure)
                 is Cancelled -> setScreenState(ChooseFileState)
                 is Unavailable -> Unit
@@ -60,5 +72,13 @@ internal class UploadViewModel(
 
     private fun setScreenState(state: ScreenState) {
         _state.value = state
+    }
+
+    private fun performAutoAction(url: String) {
+        when (preferencesProvider.actionAfterUpload) {
+            SHARE_URL -> _command.trySend(ShareLink(url))
+            COPY_URL_TO_CLIPBOARD -> _command.trySend(CopyLink(url))
+            NONE -> Unit
+        }
     }
 }

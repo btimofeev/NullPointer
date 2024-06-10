@@ -12,5 +12,31 @@
             android:key="app_theme"
             android:title="@string/prefs_theme"
             android:summary="%s"/>
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:icon="@drawable/ic_swipe_left_24dp"
+            android:key="swipe_to_delete_history_item"
+            android:title="@string/prefs_swipe_to_delete"/>
+
+        <ListPreference
+            android:dialogTitle="@string/prefs_action_after_upload"
+            android:icon="@drawable/ic_autoplay_24dp"
+            android:entries="@array/share_action_names"
+            android:entryValues="@array/share_action_values"
+            android:defaultValue="none"
+            android:key="action_after_upload"
+            android:title="@string/prefs_action_after_upload"
+            android:summary="%s"/>
+
+        <ListPreference
+            android:dialogTitle="@string/prefs_action_on_history_click"
+            android:icon="@drawable/ic_touch_app_24dp"
+            android:entries="@array/share_action_names"
+            android:entryValues="@array/share_action_values"
+            android:defaultValue="copy"
+            android:key="action_on_history_click"
+            android:title="@string/prefs_action_on_history_click"
+            android:summary="%s"/>
     </PreferenceCategory>
 </PreferenceScreen>

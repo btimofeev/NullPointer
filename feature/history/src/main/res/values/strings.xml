@@ -4,5 +4,4 @@
     <string name="do_you_want_clear_history">Do you want to clear the history?</string>
     <string name="yes">yes</string>
     <string name="no">no</string>
-    <string name="url_copied_to_clipboard">URL copied to clipboard</string>
 </resources>

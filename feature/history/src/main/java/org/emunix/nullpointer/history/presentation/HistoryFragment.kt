@@ -1,8 +1,5 @@
 package org.emunix.nullpointer.history.presentation
 
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context.CLIPBOARD_SERVICE
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -10,7 +7,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
@@ -34,7 +30,12 @@ import org.emunix.nullpointer.history.databinding.FragmentHistoryBinding
 import org.emunix.nullpointer.history.presentation.list.HistoryAdapter
 import org.emunix.nullpointer.history.presentation.list.HistoryItemTouchHelperCallback
 import org.emunix.nullpointer.history.presentation.model.HistoryItem
+import org.emunix.nullpointer.uikit.model.Action
+import org.emunix.nullpointer.uikit.model.Action.CopyLink
+import org.emunix.nullpointer.uikit.model.Action.ShareLink
+import org.emunix.nullpointer.uikit.utils.copyToClipboard
 import org.emunix.nullpointer.uikit.utils.handleSystemBarInsets
+import org.emunix.nullpointer.uikit.utils.shareText
 
 internal class HistoryFragment : Fragment() {
 
@@ -45,7 +46,7 @@ internal class HistoryFragment : Fragment() {
     private var isClearHistoryMenuVisible = false
 
     private val listAdapter: HistoryAdapter = HistoryAdapter(
-        onClickListener = { item -> onItemClick(item) },
+        onClickListener = { item -> viewModel.onItemClick(item) },
         onItemRemoved = { item -> viewModel.onRemoveHistoryItem(item) },
     )
 
@@ -53,6 +54,7 @@ internal class HistoryFragment : Fragment() {
         val appProvider = (requireActivity().application as AppProviderHolder).appProvider
         HistoryViewModelFactory(
             history = appProvider.getDatabaseRepository(),
+            preferencesProvider = appProvider.getPreferencesProvider(),
         )
     }
 
@@ -112,9 +114,6 @@ internal class HistoryFragment : Fragment() {
             val listLayoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
             layoutManager = listLayoutManager
             adapter = listAdapter
-            val callback = HistoryItemTouchHelperCallback(listAdapter)
-            val itemTouchHelper = ItemTouchHelper(callback)
-            itemTouchHelper.attachToRecyclerView(this)
             addItemDecoration(DividerItemDecoration(context, listLayoutManager.orientation))
 
             ViewCompat.setOnApplyWindowInsetsListener(this) { v, windowInsets ->
@@ -130,6 +129,16 @@ internal class HistoryFragment : Fragment() {
                     viewModel.historyItems.collect { items ->
                         if (items != null) binding.showHistory(items)
                     }
+                }
+
+                launch {
+                    viewModel.isSwipeToDeleteEnabled.collect { isEnabled ->
+                        if (isEnabled) setSwipeToDeleteEnabled()
+                    }
+                }
+
+                launch {
+                    viewModel.command.collect { performAction(it) }
                 }
             }
         }
@@ -161,12 +170,10 @@ internal class HistoryFragment : Fragment() {
         updateMenu()
     }
 
-    private fun onItemClick(item: HistoryItem) {
-        context?.let { ctx ->
-            val clipboard: ClipboardManager? = ctx.getSystemService(CLIPBOARD_SERVICE) as? ClipboardManager
-            val clip = ClipData.newPlainText(item.url, item.url)
-            clipboard?.setPrimaryClip(clip)
-            Toast.makeText(ctx, getString(R.string.url_copied_to_clipboard), Toast.LENGTH_SHORT).show()
+    private fun performAction(link: Action) {
+        when(link) {
+            is CopyLink -> context?.copyToClipboard(link.url)
+            is ShareLink -> context?.shareText(link.url)
         }
     }
 
@@ -182,6 +189,14 @@ internal class HistoryFragment : Fragment() {
                 }
                 .create()
                 .show()
+        }
+    }
+
+    private fun setSwipeToDeleteEnabled() {
+        with(binding.list) {
+            val callback = HistoryItemTouchHelperCallback(listAdapter)
+            val itemTouchHelper = ItemTouchHelper(callback)
+            itemTouchHelper.attachToRecyclerView(this)
         }
     }
 

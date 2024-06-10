@@ -13,4 +13,16 @@
         <item>default</item>
     </string-array>
 
+    <string-array name="share_action_names">
+        <item>@string/prefs_action_copy</item>
+        <item>@string/prefs_action_share</item>
+        <item>@string/prefs_action_none</item>
+    </string-array>
+
+    <string-array name="share_action_values">
+        <item>copy</item>
+        <item>share</item>
+        <item>none</item>
+    </string-array>
+
 </resources>

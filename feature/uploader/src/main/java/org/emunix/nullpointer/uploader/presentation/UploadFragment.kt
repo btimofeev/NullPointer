@@ -2,9 +2,6 @@ package org.emunix.nullpointer.uploader.presentation
 
 import android.app.Activity
 import android.content.ActivityNotFoundException
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -23,7 +20,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.launch
 import org.emunix.nullpointer.core.api.di.AppProviderHolder
+import org.emunix.nullpointer.uikit.model.Action
+import org.emunix.nullpointer.uikit.model.Action.CopyLink
+import org.emunix.nullpointer.uikit.model.Action.ShareLink
+import org.emunix.nullpointer.uikit.utils.copyToClipboard
 import org.emunix.nullpointer.uikit.utils.handleSystemBarInsets
+import org.emunix.nullpointer.uikit.utils.shareText
 import org.emunix.nullpointer.uploader.R
 import org.emunix.nullpointer.uploader.databinding.FragmentUploadBinding
 import org.emunix.nullpointer.uploader.presentation.model.ScreenState
@@ -38,7 +40,8 @@ class UploadFragment : Fragment() {
     private val viewModel: UploadViewModel by activityViewModels {
         val appProvider = (requireActivity().application as AppProviderHolder).appProvider
         UploadViewModelFactory(
-            uploadWorkManager = UploadWorkManagerImpl(appProvider.getContext())
+            uploadWorkManager = UploadWorkManagerImpl(appProvider.getContext()),
+            preferencesProvider = appProvider.getPreferencesProvider(),
         )
     }
 
@@ -82,6 +85,10 @@ class UploadFragment : Fragment() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
                     viewModel.screenState.collect { changeScreenState(it) }
+                }
+
+                launch {
+                    viewModel.command.collect { performAction(it) }
                 }
             }
         }
@@ -146,8 +153,8 @@ class UploadFragment : Fragment() {
         cancelButton.isVisible = false
         mainText.isVisible = true
         mainText.text = getString(R.string.upload_success, url)
-        copyToClipboardButton.setOnClickListener { copyToClipboard(url) }
-        shareButton.setOnClickListener { share(url) }
+        copyToClipboardButton.setOnClickListener { context?.copyToClipboard(url) }
+        shareButton.setOnClickListener { context?.shareText(url) }
     }
 
     private fun FragmentUploadBinding.setupUploadFailureScreenState() {
@@ -163,22 +170,11 @@ class UploadFragment : Fragment() {
         mainText.text = getText(R.string.upload_failed)
     }
 
-    private fun copyToClipboard(text: String) {
-        context?.let { ctx ->
-            val clipboard: ClipboardManager? = ctx.getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager
-            val clip = ClipData.newPlainText(text, text)
-            clipboard?.setPrimaryClip(clip)
+    private fun performAction(action: Action) {
+        when(action) {
+            is CopyLink -> context?.copyToClipboard(action.url)
+            is ShareLink -> context?.shareText(action.url)
         }
-    }
-
-    private fun share(text: String) {
-        val sendIntent: Intent = Intent().apply {
-            action = Intent.ACTION_SEND
-            putExtra(Intent.EXTRA_TEXT, text)
-            type = "text/plain"
-        }
-        val shareIntent = Intent.createChooser(sendIntent, null)
-        startActivity(shareIntent)
     }
 
     companion object {

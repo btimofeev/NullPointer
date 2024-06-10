@@ -1,9 +1,18 @@
 <resources>
 
     <string name="prefs_category_interface">User interface</string>
+
     <string name="prefs_theme">Application theme</string>
     <string name="prefs_theme_dialog_title">Select theme</string>
     <string name="prefs_theme_name_light">Light</string>
     <string name="prefs_theme_name_dark">Dark</string>
     <string name="prefs_theme_name_default">Use system default</string>
+
+    <string name="prefs_action_after_upload">Action after upload file</string>
+    <string name="prefs_action_on_history_click">Click on a history element</string>
+    <string name="prefs_action_copy">Copy URL to clipboard</string>
+    <string name="prefs_action_share">Open share dialog</string>
+    <string name="prefs_action_none">Do nothing</string>
+
+    <string name="prefs_swipe_to_delete">Delete history item by swiping</string>
 </resources>
