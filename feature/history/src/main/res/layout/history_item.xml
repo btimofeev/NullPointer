@@ -15,6 +15,7 @@
         android:layout_margin="16dp"
         android:background="@drawable/circle"
         android:backgroundTint="?colorTertiaryFixed"
+        android:importantForAccessibility="no"
         app:tint="?colorOnTertiaryFixed"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
