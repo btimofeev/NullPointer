@@ -28,9 +28,13 @@ import org.emunix.nullpointer.uikit.utils.handleSystemBarInsets
 import org.emunix.nullpointer.uikit.utils.shareText
 import org.emunix.nullpointer.uploader.R
 import org.emunix.nullpointer.uploader.databinding.FragmentUploadBinding
+import org.emunix.nullpointer.uploader.domain.model.ErrorType
+import org.emunix.nullpointer.uploader.domain.model.ErrorType.FORBIDDEN_FILE_FORMAT
+import org.emunix.nullpointer.uploader.domain.model.ErrorType.MAX_FILE_SIZE_HAS_BEEN_EXCEEDED
+import org.emunix.nullpointer.uploader.domain.model.ErrorType.UPLOAD_FAILED
 import org.emunix.nullpointer.uploader.presentation.model.ScreenState
 import org.emunix.nullpointer.uploader.presentation.model.ScreenState.ChooseFileState
-import org.emunix.nullpointer.uploader.presentation.model.ScreenState.UploadFailure
+import org.emunix.nullpointer.uploader.presentation.model.ScreenState.Error
 import org.emunix.nullpointer.uploader.presentation.model.ScreenState.UploadInProgressState
 import org.emunix.nullpointer.uploader.presentation.model.ScreenState.UploadSuccess
 import org.emunix.nullpointer.uploader.work.UploadWorkManagerImpl
@@ -115,7 +119,7 @@ class UploadFragment : Fragment() {
             is ChooseFileState -> binding.setupChooseFileScreenState()
             is UploadInProgressState -> binding.setupUploadInProgressScreenState()
             is UploadSuccess -> binding.setupUploadSuccessScreenState(state.url)
-            is UploadFailure -> binding.setupUploadFailureScreenState()
+            is Error -> binding.setupErrorScreenState(state.type)
         }
     }
 
@@ -157,7 +161,7 @@ class UploadFragment : Fragment() {
         shareButton.setOnClickListener { context?.shareText(url) }
     }
 
-    private fun FragmentUploadBinding.setupUploadFailureScreenState() {
+    private fun FragmentUploadBinding.setupErrorScreenState(errorType: ErrorType) {
         anim.setAnimation("error.lottie")
         anim.playAnimation()
         chooseFileButton.isVisible = true
@@ -167,7 +171,11 @@ class UploadFragment : Fragment() {
         tryAgainButton.setOnClickListener { viewModel.tryAgain() }
         cancelButton.isVisible = false
         mainText.isVisible = true
-        mainText.text = getText(R.string.upload_failed)
+        mainText.text = when (errorType) {
+            UPLOAD_FAILED -> getText(R.string.upload_failed)
+            MAX_FILE_SIZE_HAS_BEEN_EXCEEDED -> getText(R.string.error_max_file_size_exceeds)
+            FORBIDDEN_FILE_FORMAT -> getText(R.string.error_forbidden_file_format)
+        }
     }
 
     private fun performAction(action: Action) {

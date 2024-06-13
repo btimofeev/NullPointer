@@ -14,6 +14,9 @@ import androidx.work.WorkManager
 import androidx.work.workDataOf
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import org.emunix.nullpointer.uploader.domain.model.ErrorType.FORBIDDEN_FILE_FORMAT
+import org.emunix.nullpointer.uploader.domain.model.ErrorType.MAX_FILE_SIZE_HAS_BEEN_EXCEEDED
+import org.emunix.nullpointer.uploader.domain.model.ErrorType.UPLOAD_FAILED
 import org.emunix.nullpointer.uploader.domain.model.UploadStatus
 
 internal interface UploadWorkManager {
@@ -65,12 +68,20 @@ internal class UploadWorkManagerImpl(
                         SUCCEEDED -> {
                             val url = workInfo.outputData.getString(UPLOAD_WORK_RESULT_KEY)
                             workManager.pruneWork()
-                            if (url != null) UploadStatus.Success(url) else UploadStatus.Failed
+                            if (url != null) UploadStatus.Success(url) else UploadStatus.Failed(UPLOAD_FAILED)
                         }
 
                         FAILED -> {
+                            val isFileForbiddenError = workInfo.outputData.getBoolean(UPLOAD_WORK_ERROR_FILE_TYPE_IS_FORBIDDEN, false)
+                            val isMaxSizeError = workInfo.outputData.getBoolean(UPLOAD_WORK_ERROR_MAX_SIZE, false)
                             workManager.pruneWork()
-                            UploadStatus.Failed
+                            UploadStatus.Failed(
+                                errorType = when {
+                                    isFileForbiddenError -> FORBIDDEN_FILE_FORMAT
+                                    isMaxSizeError -> MAX_FILE_SIZE_HAS_BEEN_EXCEEDED
+                                    else -> UPLOAD_FAILED
+                                }
+                            )
                         }
                         CANCELLED -> {
                             workManager.pruneWork()

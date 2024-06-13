@@ -1,12 +1,10 @@
 package org.emunix.nullpointer.uploader.domain
 
-import org.emunix.nullpointer.core.api.domain.UploadedFileModel
-import java.io.InputStream
+import java.io.File
 
 interface UploadRepository {
 
     suspend fun upload(
-        fileName: String,
-        stream: InputStream,
-    ): Result<UploadedFileModel>
+        file: File,
+    ): String
 }

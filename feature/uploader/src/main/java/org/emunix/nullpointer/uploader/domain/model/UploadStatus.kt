@@ -6,7 +6,7 @@ internal sealed interface UploadStatus {
 
     data object Running: UploadStatus
 
-    data object Failed: UploadStatus
+    data class Failed(val errorType: ErrorType): UploadStatus
 
     data object Cancelled: UploadStatus
 

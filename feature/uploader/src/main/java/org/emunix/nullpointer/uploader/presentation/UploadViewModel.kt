@@ -17,12 +17,12 @@ import org.emunix.nullpointer.uikit.model.Action.CopyLink
 import org.emunix.nullpointer.uikit.model.Action.ShareLink
 import org.emunix.nullpointer.uploader.domain.model.UploadStatus.Cancelled
 import org.emunix.nullpointer.uploader.domain.model.UploadStatus.Failed
-import org.emunix.nullpointer.uploader.domain.model.UploadStatus.Unavailable
 import org.emunix.nullpointer.uploader.domain.model.UploadStatus.Running
 import org.emunix.nullpointer.uploader.domain.model.UploadStatus.Success
+import org.emunix.nullpointer.uploader.domain.model.UploadStatus.Unavailable
 import org.emunix.nullpointer.uploader.presentation.model.ScreenState
 import org.emunix.nullpointer.uploader.presentation.model.ScreenState.ChooseFileState
-import org.emunix.nullpointer.uploader.presentation.model.ScreenState.UploadFailure
+import org.emunix.nullpointer.uploader.presentation.model.ScreenState.Error
 import org.emunix.nullpointer.uploader.presentation.model.ScreenState.UploadInProgressState
 import org.emunix.nullpointer.uploader.presentation.model.ScreenState.UploadSuccess
 import org.emunix.nullpointer.uploader.work.UploadWorkManager
@@ -63,7 +63,7 @@ internal class UploadViewModel(
             when (status) {
                 is Running -> setScreenState(UploadInProgressState)
                 is Success -> setScreenState(UploadSuccess(status.url)).also { performAutoAction(status.url) }
-                is Failed -> setScreenState(UploadFailure)
+                is Failed -> setScreenState(Error(status.errorType))
                 is Cancelled -> setScreenState(ChooseFileState)
                 is Unavailable -> Unit
             }

@@ -4,6 +4,8 @@
     <string name="please_wait">Upload in progress, please wait..</string>
     <string name="upload_failed">Sorry, the upload failed</string>
     <string name="upload_success">Your file has been uploaded:\n %1$s</string>
+    <string name="error_max_file_size_exceeds">The file cannot be uploaded - it exceeds the maximum allowed size of 512 MB.</string>
+    <string name="error_forbidden_file_format">Error: forbidden file format.</string>
     <string name="copy_to_clipboard">Copy link</string>
     <string name="share">Share</string>
     <string name="try_again">Try again</string>

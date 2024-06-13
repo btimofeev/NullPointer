@@ -2,37 +2,26 @@ package org.emunix.nullpointer.uploader.data.repository
 
 import okhttp3.MultipartBody.Part
 import okhttp3.RequestBody
-import org.emunix.nullpointer.core.api.domain.UploadedFileModel
-import org.emunix.nullpointer.uploader.domain.UploadRepository
+import org.emunix.nullpointer.core.api.domain.ResponseIsEmptyException
+import org.emunix.nullpointer.core.api.domain.UploadFailedException
 import org.emunix.nullpointer.uploader.data.api.UploadApi
+import org.emunix.nullpointer.uploader.domain.UploadRepository
 import retrofit2.Response
 import java.io.File
-import java.io.IOException
-import java.io.InputStream
-import java.util.Date
+import javax.inject.Inject
 
-class UploadRepositoryImpl(
+class UploadRepositoryImpl @Inject constructor(
     private val uploadApi: UploadApi,
-    private val tempDir: File,
 ) : UploadRepository {
 
     override suspend fun upload(
-        fileName: String,
-        stream: InputStream,
-    ): Result<UploadedFileModel> {
-        val tempFile = try {
-            makeTempFile(fileName, stream)
-        } catch (e: IOException) {
-            return Result.failure(org.emunix.nullpointer.core.api.domain.CreateTempFileException())
-        }
-
-        return try {
-            val response = sendFile(tempFile)
-            getUploadedFileModel(response, tempFile)
-        } catch (e: Throwable) {
-            Result.failure(e)
-        } finally {
-            tempFile.delete()
+        file: File,
+    ): String {
+        val response = sendFile(file)
+        if (response.isSuccessful) {
+            return response.body() ?: throw ResponseIsEmptyException()
+        } else {
+            throw UploadFailedException()
         }
     }
 
@@ -48,35 +37,5 @@ class UploadRepositoryImpl(
                     )
                 )
         )
-    }
-
-    private fun getUploadedFileModel(response: Response<String>, file: File): Result<UploadedFileModel> {
-        if (response.isSuccessful) {
-            val body = response.body() ?: return Result.failure(org.emunix.nullpointer.core.api.domain.ResponseIsEmptyException())
-            return Result.success(
-                UploadedFileModel(
-                    name = file.name,
-                    size = file.length(),
-                    url = body,
-                    uploadDate = Date(),
-                )
-            )
-        } else {
-            return Result.failure(org.emunix.nullpointer.core.api.domain.UploadFailedException())
-        }
-    }
-
-    private fun makeTempFile(
-        fileName: String,
-        stream: InputStream,
-    ): File {
-        val file = File(tempDir, fileName)
-        stream.use { input ->
-            file.outputStream().use { output ->
-                input.copyTo(output)
-                output.flush()
-            }
-        }
-        return file
     }
 }
