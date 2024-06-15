@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import org.emunix.nullpointer.core.api.domain.DatabaseRepository
 import org.emunix.nullpointer.core.api.domain.PreferencesProvider
+import java.text.SimpleDateFormat
 
 internal class HistoryViewModelFactory(
     private val history: DatabaseRepository,
@@ -11,5 +12,9 @@ internal class HistoryViewModelFactory(
 ) : ViewModelProvider.NewInstanceFactory() {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T =
-        HistoryViewModel(history, preferencesProvider) as T
+        HistoryViewModel(
+            history = history,
+            preferencesProvider = preferencesProvider,
+            dateFormatter = SimpleDateFormat.getDateTimeInstance()
+        ) as T
 }

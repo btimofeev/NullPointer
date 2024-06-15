@@ -15,21 +15,21 @@ import org.emunix.nullpointer.core.api.domain.ShareAction.NONE
 import org.emunix.nullpointer.core.api.domain.ShareAction.SHARE_URL
 import org.emunix.nullpointer.core.api.domain.UploadedFileModel
 import org.emunix.nullpointer.history.presentation.model.HistoryItem
+import org.emunix.nullpointer.history.utils.getIconResForFile
 import org.emunix.nullpointer.uikit.model.Action
 import org.emunix.nullpointer.uikit.model.Action.CopyLink
 import org.emunix.nullpointer.uikit.model.Action.ShareLink
-import org.emunix.nullpointer.history.utils.getIconResForFile
-import java.text.SimpleDateFormat
+import java.text.DateFormat
 
 internal class HistoryViewModel(
     private val history: DatabaseRepository,
     private val preferencesProvider: PreferencesProvider,
+    private val dateFormatter: DateFormat,
 ) : ViewModel() {
 
     private val _historyItems = MutableStateFlow<List<HistoryItem>?>(null)
     private val _isSwipeToDeleteEnabled = MutableStateFlow(false)
     private val _command = Channel<Action>()
-    private val dateFormatter by lazy { SimpleDateFormat.getDateTimeInstance() }
 
     val historyItems: StateFlow<List<HistoryItem>?> = _historyItems.asStateFlow()
     val isSwipeToDeleteEnabled = _isSwipeToDeleteEnabled.asStateFlow()

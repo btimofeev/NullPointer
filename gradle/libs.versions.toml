@@ -18,6 +18,8 @@ room = "2.6.1"
 workManager = "2.9.0"
 lottie = "6.4.1"
 preference = "1.2.1"
+mockk = "1.13.11"
+coroutinesTest = "1.8.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -39,6 +41,8 @@ roomCompiler = { group = "androidx.room", name = "room-compiler", version.ref = 
 workManager = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "workManager" }
 lottie = { group = "com.airbnb.android", name = "lottie", version.ref = "lottie" }
 androidx-preference-ktx = { group = "androidx.preference", name = "preference-ktx", version.ref = "preference" }
+mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk"}
+kotlin-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutinesTest"}
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
