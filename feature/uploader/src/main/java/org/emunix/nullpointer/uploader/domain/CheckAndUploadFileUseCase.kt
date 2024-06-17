@@ -33,6 +33,7 @@ internal class CheckAndUploadFileUseCaseImpl @Inject constructor(
         "application/vnd.android.package-archive",
         "application/x-rar",
         "application/rar",
+        "application/vnd.rar",
         "application/vnd.microsoft.portable-executable",
     )
 
