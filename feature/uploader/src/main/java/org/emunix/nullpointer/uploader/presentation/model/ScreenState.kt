@@ -1,6 +1,6 @@
 package org.emunix.nullpointer.uploader.presentation.model
 
-import org.emunix.nullpointer.uploader.domain.model.ErrorType
+import org.emunix.nullpointer.core.api.domain.ErrorType
 
 internal interface ScreenState {
 

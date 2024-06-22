@@ -14,24 +14,14 @@ import androidx.work.WorkManager
 import androidx.work.workDataOf
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import org.emunix.nullpointer.uploader.domain.model.ErrorType.FORBIDDEN_FILE_FORMAT
-import org.emunix.nullpointer.uploader.domain.model.ErrorType.MAX_FILE_SIZE_HAS_BEEN_EXCEEDED
-import org.emunix.nullpointer.uploader.domain.model.ErrorType.UPLOAD_FAILED
-import org.emunix.nullpointer.uploader.domain.model.UploadStatus
+import org.emunix.nullpointer.core.api.domain.ErrorType.FORBIDDEN_FILE_FORMAT
+import org.emunix.nullpointer.core.api.domain.ErrorType.MAX_FILE_SIZE_HAS_BEEN_EXCEEDED
+import org.emunix.nullpointer.core.api.domain.ErrorType.UPLOAD_FAILED
+import org.emunix.nullpointer.core.api.domain.UploadStatus
+import org.emunix.nullpointer.core.api.domain.UploadWorkManager
 
-internal interface UploadWorkManager {
 
-    fun startUpload(
-        fileName: String,
-        uri: String,
-    )
-
-    fun observeUpload(): Flow<UploadStatus>
-
-    fun cancelUpload()
-}
-
-internal class UploadWorkManagerImpl(
+class UploadWorkManagerImpl(
     private val context: Context,
 ) : UploadWorkManager {
 

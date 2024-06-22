@@ -14,6 +14,7 @@ import javax.inject.Singleton
         NavigationModule::class,
         NotificationsModule::class,
         PreferencesModule::class,
+        UploadWorkModule::class,
     ]
 )
 @Singleton

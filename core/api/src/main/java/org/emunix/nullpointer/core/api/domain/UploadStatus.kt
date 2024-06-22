@@ -1,6 +1,6 @@
-package org.emunix.nullpointer.uploader.domain.model
+package org.emunix.nullpointer.core.api.domain
 
-internal sealed interface UploadStatus {
+sealed interface UploadStatus {
 
     data class Success(val url: String): UploadStatus
 

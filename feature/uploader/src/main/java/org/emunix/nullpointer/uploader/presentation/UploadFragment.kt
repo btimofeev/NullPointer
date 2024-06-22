@@ -28,23 +28,22 @@ import org.emunix.nullpointer.uikit.utils.handleSystemBarInsets
 import org.emunix.nullpointer.uikit.utils.shareText
 import org.emunix.nullpointer.uploader.R
 import org.emunix.nullpointer.uploader.databinding.FragmentUploadBinding
-import org.emunix.nullpointer.uploader.domain.model.ErrorType
-import org.emunix.nullpointer.uploader.domain.model.ErrorType.FORBIDDEN_FILE_FORMAT
-import org.emunix.nullpointer.uploader.domain.model.ErrorType.MAX_FILE_SIZE_HAS_BEEN_EXCEEDED
-import org.emunix.nullpointer.uploader.domain.model.ErrorType.UPLOAD_FAILED
+import org.emunix.nullpointer.core.api.domain.ErrorType
+import org.emunix.nullpointer.core.api.domain.ErrorType.FORBIDDEN_FILE_FORMAT
+import org.emunix.nullpointer.core.api.domain.ErrorType.MAX_FILE_SIZE_HAS_BEEN_EXCEEDED
+import org.emunix.nullpointer.core.api.domain.ErrorType.UPLOAD_FAILED
 import org.emunix.nullpointer.uploader.presentation.model.ScreenState
 import org.emunix.nullpointer.uploader.presentation.model.ScreenState.ChooseFileState
 import org.emunix.nullpointer.uploader.presentation.model.ScreenState.Error
 import org.emunix.nullpointer.uploader.presentation.model.ScreenState.UploadInProgressState
 import org.emunix.nullpointer.uploader.presentation.model.ScreenState.UploadSuccess
-import org.emunix.nullpointer.uploader.work.UploadWorkManagerImpl
 
 class UploadFragment : Fragment() {
 
     private val viewModel: UploadViewModel by activityViewModels {
         val appProvider = (requireActivity().application as AppProviderHolder).appProvider
         UploadViewModelFactory(
-            uploadWorkManager = UploadWorkManagerImpl(appProvider.getContext()),
+            uploadWorkManager = appProvider.getUploadWorkManager(),
             preferencesProvider = appProvider.getPreferencesProvider(),
         )
     }

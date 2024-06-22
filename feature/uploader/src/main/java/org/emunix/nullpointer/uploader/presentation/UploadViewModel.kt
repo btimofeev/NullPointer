@@ -12,20 +12,20 @@ import org.emunix.nullpointer.core.api.domain.PreferencesProvider
 import org.emunix.nullpointer.core.api.domain.ShareAction.COPY_URL_TO_CLIPBOARD
 import org.emunix.nullpointer.core.api.domain.ShareAction.NONE
 import org.emunix.nullpointer.core.api.domain.ShareAction.SHARE_URL
+import org.emunix.nullpointer.core.api.domain.UploadStatus.Cancelled
+import org.emunix.nullpointer.core.api.domain.UploadStatus.Failed
+import org.emunix.nullpointer.core.api.domain.UploadStatus.Running
+import org.emunix.nullpointer.core.api.domain.UploadStatus.Success
+import org.emunix.nullpointer.core.api.domain.UploadStatus.Unavailable
+import org.emunix.nullpointer.core.api.domain.UploadWorkManager
 import org.emunix.nullpointer.uikit.model.Action
 import org.emunix.nullpointer.uikit.model.Action.CopyLink
 import org.emunix.nullpointer.uikit.model.Action.ShareLink
-import org.emunix.nullpointer.uploader.domain.model.UploadStatus.Cancelled
-import org.emunix.nullpointer.uploader.domain.model.UploadStatus.Failed
-import org.emunix.nullpointer.uploader.domain.model.UploadStatus.Running
-import org.emunix.nullpointer.uploader.domain.model.UploadStatus.Success
-import org.emunix.nullpointer.uploader.domain.model.UploadStatus.Unavailable
 import org.emunix.nullpointer.uploader.presentation.model.ScreenState
 import org.emunix.nullpointer.uploader.presentation.model.ScreenState.ChooseFileState
 import org.emunix.nullpointer.uploader.presentation.model.ScreenState.Error
 import org.emunix.nullpointer.uploader.presentation.model.ScreenState.UploadInProgressState
 import org.emunix.nullpointer.uploader.presentation.model.ScreenState.UploadSuccess
-import org.emunix.nullpointer.uploader.work.UploadWorkManager
 
 internal class UploadViewModel(
     private val uploadWorkManager: UploadWorkManager,

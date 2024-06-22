@@ -1,6 +1,6 @@
-package org.emunix.nullpointer.uploader.domain.model
+package org.emunix.nullpointer.core.api.domain
 
-internal enum class ErrorType {
+enum class ErrorType {
 
     UPLOAD_FAILED,
 
