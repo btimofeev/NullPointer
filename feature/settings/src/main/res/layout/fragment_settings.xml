@@ -21,7 +21,7 @@
         android:id="@+id/prefs_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:name="org.emunix.nullpointer.history.presentation.PreferenceView"
+        android:name="org.emunix.nullpointer.settings.presentation.PreferenceView"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

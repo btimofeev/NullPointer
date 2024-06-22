@@ -6,7 +6,7 @@ import org.emunix.nullpointer.core.api.navigation.HistoryScreenLauncher
 import org.emunix.nullpointer.core.api.navigation.SettingsScreenLauncher
 import org.emunix.nullpointer.core.api.navigation.UploadScreenLauncher
 import org.emunix.nullpointer.history.HistoryScreenLauncherImpl
-import org.emunix.nullpointer.history.SettingsScreenLauncherImpl
+import org.emunix.nullpointer.settings.SettingsScreenLauncherImpl
 import org.emunix.nullpointer.uploader.UploadScreenLauncherImpl
 
 @Module

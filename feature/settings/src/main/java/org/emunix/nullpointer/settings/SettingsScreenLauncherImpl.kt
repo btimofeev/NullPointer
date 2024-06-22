@@ -1,8 +1,8 @@
-package org.emunix.nullpointer.history
+package org.emunix.nullpointer.settings
 
 import androidx.fragment.app.FragmentManager
 import org.emunix.nullpointer.core.api.navigation.SettingsScreenLauncher
-import org.emunix.nullpointer.history.presentation.SettingsFragment
+import org.emunix.nullpointer.settings.presentation.SettingsFragment
 import javax.inject.Inject
 
 class SettingsScreenLauncherImpl @Inject constructor() : SettingsScreenLauncher {

@@ -1,4 +1,4 @@
-package org.emunix.nullpointer.history.presentation
+package org.emunix.nullpointer.settings.presentation
 
 import android.os.Bundle
 import android.view.LayoutInflater
