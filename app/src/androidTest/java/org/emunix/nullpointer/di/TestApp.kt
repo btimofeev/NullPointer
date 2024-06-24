@@ -6,10 +6,13 @@ import android.util.Log
 import androidx.work.Configuration
 import androidx.work.testing.SynchronousExecutor
 import androidx.work.testing.WorkManagerTestInitHelper
+import dagger.Binds
 import dagger.BindsInstance
 import dagger.Component
+import dagger.Module
 import org.emunix.nullpointer.core.api.di.AppProvider
 import org.emunix.nullpointer.core.api.di.AppProviderHolder
+import org.emunix.nullpointer.core.api.domain.UploadWorkManager
 import org.emunix.nullpointer.core.impl.di.DatabaseModule
 import org.emunix.nullpointer.core.impl.di.PreferencesModule
 import javax.inject.Singleton
@@ -37,6 +40,7 @@ class TestApp : Application(), AppProviderHolder, Configuration.Provider {
         NavigationModule::class,
         NotificationsModule::class,
         PreferencesModule::class,
+        TestUploadWorkModule::class,
     ]
 )
 interface TestAppComponent : AppProvider {
@@ -46,4 +50,11 @@ interface TestAppComponent : AppProvider {
 
         fun create(@BindsInstance context: Context): TestAppComponent
     }
+}
+
+@Module
+interface TestUploadWorkModule {
+
+    @Binds
+    fun bindUploadWorkModule(impl: TestUploadWorkManager): UploadWorkManager
 }

@@ -52,7 +52,7 @@ class UploadScreenTest {
 
     @Test
     fun checkUploadFailed() {
-        mockOpenDocumentIntent("content://file")
+        mockOpenDocumentIntent("content://file_with_error_upload")
 
         clickOnView(R.id.choose_file_button)
 
@@ -61,6 +61,21 @@ class UploadScreenTest {
             text = "Sorry, the upload failed"
         )
         checkViewIsVisible(R.id.try_again_button)
+    }
+
+    @Test
+    fun checkUploadSuccess() {
+        mockOpenDocumentIntent("content://file_with_success_upload")
+
+        clickOnView(R.id.choose_file_button)
+
+        checkViewHasTextAndIsVisible(
+            id = R.id.main_text,
+            text = "Your file has been uploaded:\n http://mock.srv/abc.txt"
+        )
+        checkViewIsVisible(R.id.copy_to_clipboard_button)
+        checkViewIsVisible(R.id.share_button)
+        checkViewIsVisible(R.id.choose_file_button)
     }
 
     private fun mockOpenDocumentIntent(uri: String) {
