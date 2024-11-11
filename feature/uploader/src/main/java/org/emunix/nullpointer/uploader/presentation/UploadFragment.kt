@@ -38,7 +38,7 @@ import org.emunix.nullpointer.uploader.presentation.model.ScreenState.Error
 import org.emunix.nullpointer.uploader.presentation.model.ScreenState.UploadInProgressState
 import org.emunix.nullpointer.uploader.presentation.model.ScreenState.UploadSuccess
 
-class UploadFragment : Fragment() {
+internal class UploadFragment : Fragment() {
 
     private val viewModel: UploadViewModel by activityViewModels {
         val appProvider = (requireActivity().application as AppProviderHolder).appProvider
@@ -48,9 +48,7 @@ class UploadFragment : Fragment() {
         )
     }
 
-    private var _binding: FragmentUploadBinding? = null
-
-    private val binding get() = _binding!!
+    private var binding: FragmentUploadBinding? = null
 
     private val selectFileResult = registerForActivityResult(StartActivityForResult()) { result: ActivityResult ->
         if (result.resultCode == Activity.RESULT_OK) {
@@ -67,20 +65,21 @@ class UploadFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentUploadBinding.inflate(inflater, container, false)
-        return binding.root
+        val fragment = FragmentUploadBinding.inflate(inflater, container, false)
+        binding = fragment
+        return fragment.root
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.chooseFileButton.setOnClickListener { selectFile() }
+        binding?.chooseFileButton?.setOnClickListener { selectFile() }
         setupObservers()
-        setupToolbar()
+        binding?.setupToolbar()
     }
 
     private fun setupObservers() {
@@ -97,9 +96,9 @@ class UploadFragment : Fragment() {
         }
     }
 
-    private fun setupToolbar() {
-        (requireActivity() as AppCompatActivity).setSupportActionBar(binding.toolbar)
-        binding.toolbar.handleSystemBarInsets()
+    private fun FragmentUploadBinding.setupToolbar() {
+        (activity as? AppCompatActivity)?.setSupportActionBar(toolbar)
+        toolbar.handleSystemBarInsets()
     }
 
     private fun selectFile() {
@@ -115,10 +114,10 @@ class UploadFragment : Fragment() {
 
     private fun changeScreenState(state: ScreenState) {
         when (state) {
-            is ChooseFileState -> binding.setupChooseFileScreenState()
-            is UploadInProgressState -> binding.setupUploadInProgressScreenState()
-            is UploadSuccess -> binding.setupUploadSuccessScreenState(state.url)
-            is Error -> binding.setupErrorScreenState(state.type)
+            is ChooseFileState -> binding?.setupChooseFileScreenState()
+            is UploadInProgressState -> binding?.setupUploadInProgressScreenState()
+            is UploadSuccess -> binding?.setupUploadSuccessScreenState(state.url)
+            is Error -> binding?.setupErrorScreenState(state.type)
         }
     }
 

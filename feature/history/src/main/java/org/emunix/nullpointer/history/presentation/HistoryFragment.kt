@@ -39,9 +39,7 @@ import org.emunix.nullpointer.uikit.utils.shareText
 
 internal class HistoryFragment : Fragment() {
 
-    private var _binding: FragmentHistoryBinding? = null
-
-    private val binding get() = _binding!!
+    private var binding: FragmentHistoryBinding? = null
 
     private var isClearHistoryMenuVisible = false
 
@@ -71,11 +69,12 @@ internal class HistoryFragment : Fragment() {
         }
 
         override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-            return when(menuItem.itemId){
+            return when (menuItem.itemId) {
                 R.id.action_clear_history -> {
                     onClearHistoryClick()
                     true
                 }
+
                 else -> false
             }
         }
@@ -86,32 +85,34 @@ internal class HistoryFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentHistoryBinding.inflate(inflater, container, false)
-        return binding.root
+        val fragment = FragmentHistoryBinding.inflate(inflater, container, false)
+        binding = fragment
+        return fragment.root
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.init()
-        setupToolbar()
-        setupList()
+        binding?.setupToolbar()
+        binding?.setupList()
         setupObservers()
     }
 
-    private fun setupToolbar() {
-        (requireActivity() as AppCompatActivity).setSupportActionBar(binding.toolbar)
-        binding.toolbar.handleSystemBarInsets()
+    private fun FragmentHistoryBinding.setupToolbar() {
+        (activity as? AppCompatActivity)?.setSupportActionBar(toolbar)
+        toolbar.handleSystemBarInsets()
         addMenu()
     }
 
-    private fun setupList() {
-        with(binding.list) {
-            val listLayoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+    private fun FragmentHistoryBinding.setupList() {
+        with(list) {
+            val listLayoutManager =
+                LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
             layoutManager = listLayoutManager
             adapter = listAdapter
             addItemDecoration(DividerItemDecoration(context, listLayoutManager.orientation))
@@ -127,7 +128,7 @@ internal class HistoryFragment : Fragment() {
             repeatOnLifecycle(State.STARTED) {
                 launch {
                     viewModel.historyItems.collect { items ->
-                        if (items != null) binding.showHistory(items)
+                        if (items != null) binding?.showHistory(items)
                     }
                 }
 
@@ -145,7 +146,11 @@ internal class HistoryFragment : Fragment() {
     }
 
     private fun addMenu() {
-        (activity as? MenuHost)?.addMenuProvider(historyMenuProvider, viewLifecycleOwner, State.RESUMED)
+        (activity as? MenuHost)?.addMenuProvider(
+            historyMenuProvider,
+            viewLifecycleOwner,
+            State.RESUMED
+        )
     }
 
     private fun updateMenu() {
@@ -171,7 +176,7 @@ internal class HistoryFragment : Fragment() {
     }
 
     private fun performAction(link: Action) {
-        when(link) {
+        when (link) {
             is CopyLink -> context?.copyToClipboard(link.url)
             is ShareLink -> context?.shareText(link.url)
         }
@@ -193,7 +198,7 @@ internal class HistoryFragment : Fragment() {
     }
 
     private fun setSwipeToDeleteEnabled() {
-        with(binding.list) {
+        with(binding?.list) {
             val callback = HistoryItemTouchHelperCallback(listAdapter)
             val itemTouchHelper = ItemTouchHelper(callback)
             itemTouchHelper.attachToRecyclerView(this)
