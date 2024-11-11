@@ -1,26 +1,9 @@
 ## NullPointer
 
-Android-клиент для файлового хостинга https://0x0.st
+Android client for file hosting https://0x0.st
 
-### Возможности:
+### License
 
-* Загрузка файлов
-* История загрузок
-* Возможность поделиться файлом
-* Настройки
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
 
-### Технологии
-
-* Kotlin
-* dagger2
-* retrofit2
-* room
-* Kotlin Coroutines
-* WorkManager
-
-### Дальнейшее развитие
-
-* Настройка и отображение времени жизни файлов
-* Принудительное удаление файлов с сервера (до истечения времени жизни)
-* Настройка url сервера (для возможности использования своего инстанса)
-* Открытие файлов из внешних программ
+Animated images are licensed under the [Lottie Simple License](https://lottiefiles.com/page/license)
