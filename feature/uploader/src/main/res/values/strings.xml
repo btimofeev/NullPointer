@@ -11,4 +11,8 @@
     <string name="try_again">Try again</string>
     <string name="cancel_upload">Cancel upload</string>
     <string name="error_choose_file_app_not_found">Failed to open file picker application</string>
+    <string name="do_you_want_to_upload_file">Do you want to upload file?</string>
+    <string name="upload">Upload</string>
+    <string name="cancel">Cancel</string>
+
 </resources>

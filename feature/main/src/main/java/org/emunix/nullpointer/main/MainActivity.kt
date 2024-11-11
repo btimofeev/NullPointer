@@ -1,10 +1,14 @@
 package org.emunix.nullpointer.main
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.os.Parcelable
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.emunix.nullpointer.core.api.di.AppProviderHolder
+import org.emunix.nullpointer.core.api.domain.PreferencesProvider
 import org.emunix.nullpointer.core.api.navigation.HistoryScreenLauncher
 import org.emunix.nullpointer.core.api.navigation.SettingsScreenLauncher
 import org.emunix.nullpointer.core.api.navigation.UploadScreenLauncher
@@ -23,6 +27,9 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var settingsScreenLauncher: SettingsScreenLauncher
 
+    @Inject
+    lateinit var preferencesProvider: PreferencesProvider
+
     private lateinit var binding: ActivityMainBinding
 
     private val navView: BottomNavigationView by lazy { binding.navView }
@@ -34,6 +41,8 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        handleIntent()
 
         navView.setOnItemSelectedListener { item ->
             when (item.itemId) {
@@ -66,6 +75,14 @@ class MainActivity : AppCompatActivity() {
             navView.selectedItemId = savedInstanceState.getInt(SELECTED_SCREEN, R.id.navigation_upload)
         } else {
             navView.selectedItemId = R.id.navigation_upload
+        }
+    }
+
+    private fun handleIntent() {
+        if (intent?.action == Intent.ACTION_SEND) {
+            (intent.getParcelableExtra<Parcelable>(Intent.EXTRA_STREAM) as? Uri)?.let { uri ->
+                preferencesProvider.launchUri = uri.toString()
+            }
         }
     }
 

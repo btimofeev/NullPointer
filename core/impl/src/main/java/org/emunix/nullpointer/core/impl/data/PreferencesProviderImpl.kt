@@ -1,7 +1,9 @@
 package org.emunix.nullpointer.core.impl.data
 
 import android.content.SharedPreferences
+import androidx.core.content.edit
 import org.emunix.nullpointer.core.api.APP_THEME_PREFERENCE_KEY
+import org.emunix.nullpointer.core.api.LAUNCH_URI_PREFERENCE_KEY
 import org.emunix.nullpointer.core.api.domain.PreferencesProvider
 import org.emunix.nullpointer.core.api.domain.ShareAction
 import org.emunix.nullpointer.core.api.domain.ShareAction.COPY_URL_TO_CLIPBOARD
@@ -30,6 +32,10 @@ class PreferencesProviderImpl @Inject constructor(
 
     override val swipeToDeleteHistoryItem: Boolean
         get() = preferences.getBoolean("swipe_to_delete_history_item", true)
+
+    override var launchUri: String?
+        get() = preferences.getString(LAUNCH_URI_PREFERENCE_KEY, null)
+        set(value) = preferences.edit { putString(LAUNCH_URI_PREFERENCE_KEY, value) }
 
     private fun convertStringToShareAction(action: String): ShareAction =
         when (action) {

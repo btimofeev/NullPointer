@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.documentfile.provider.DocumentFile
 import androidx.fragment.app.Fragment
@@ -18,6 +19,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.launch
 import org.emunix.nullpointer.core.api.di.AppProviderHolder
 import org.emunix.nullpointer.uikit.model.Action
@@ -91,6 +93,11 @@ internal class UploadFragment : Fragment() {
 
                 launch {
                     viewModel.command.collect { performAction(it) }
+                }
+                launch {
+                    viewModel.showUploadFileQuestionDialog.collect {
+                        showUploadFileQuestionDialog(it)
+                    }
                 }
             }
         }
@@ -180,6 +187,29 @@ internal class UploadFragment : Fragment() {
         when(action) {
             is CopyLink -> context?.copyToClipboard(action.url)
             is ShareLink -> context?.shareText(action.url)
+        }
+    }
+
+    private fun showUploadFileQuestionDialog(launchUri: String?) {
+        if (launchUri == null) return
+        context?.let { ctx ->
+            val uri = launchUri.toUri()
+            val document = DocumentFile.fromSingleUri(ctx, uri)
+            val fileName = document?.name.orEmpty()
+            MaterialAlertDialogBuilder(ctx)
+                .setTitle(R.string.do_you_want_to_upload_file)
+                .setMessage(fileName)
+                .setPositiveButton(R.string.upload) { _, _ ->
+                    viewModel.uploadFile(fileName, launchUri)
+                }
+                .setNegativeButton(R.string.cancel) { dialog, _ ->
+                    dialog.cancel()
+                }
+                .setOnDismissListener {
+                    viewModel.onUploadFileQuestionDialogDismiss()
+                }
+                .create()
+                .show()
         }
     }
 

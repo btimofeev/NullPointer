@@ -11,4 +11,6 @@ interface PreferencesProvider {
     val actionOnHistoryItemClick: ShareAction
 
     val swipeToDeleteHistoryItem: Boolean
+
+    var launchUri: String?
 }

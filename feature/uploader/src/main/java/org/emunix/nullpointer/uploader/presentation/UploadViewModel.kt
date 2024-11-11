@@ -33,15 +33,18 @@ internal class UploadViewModel(
 ) : ViewModel() {
 
     private val _state = MutableStateFlow<ScreenState>(ChooseFileState)
+    private val _showUploadFileQuestionDialog = MutableStateFlow<String?>(null)
     private val _command = Channel<Action>()
     private var lastSelectedFileName: String = ""
     private var lastSelectedUri: String = ""
 
     val screenState: StateFlow<ScreenState> = _state.asStateFlow()
+    val showUploadFileQuestionDialog: StateFlow<String?> = _showUploadFileQuestionDialog.asStateFlow()
     val command = _command.receiveAsFlow()
 
     init {
         observeUploadWork()
+        _showUploadFileQuestionDialog.tryEmit(preferencesProvider.launchUri)
     }
 
     fun uploadFile(fileName: String, uri: String) {
@@ -56,6 +59,11 @@ internal class UploadViewModel(
 
     fun tryAgain() {
         uploadFile(lastSelectedFileName, lastSelectedUri)
+    }
+
+    fun onUploadFileQuestionDialogDismiss() {
+        preferencesProvider.launchUri = null
+        _showUploadFileQuestionDialog.tryEmit(null)
     }
 
     private fun observeUploadWork() = viewModelScope.launch {
