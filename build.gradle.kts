@@ -2,7 +2,7 @@
 buildscript {
     extra.apply{
         set("minSdkVersion", 29)
-        set("compileSdkVersion", 34)
+        set("compileSdkVersion", 35)
     }
 }
 
