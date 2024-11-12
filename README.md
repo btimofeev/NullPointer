@@ -1,6 +1,6 @@
 ## NullPointer
 
-Android client for file hosting https://0x0.st
+An unofficial Android app for file hosting https://0x0.st
 
 ### License
 
