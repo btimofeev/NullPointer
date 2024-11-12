@@ -6,6 +6,7 @@ import io.mockk.unmockkAll
 import kotlinx.coroutines.test.runTest
 import org.emunix.nullpointer.core.api.domain.FileTypeIsForbiddenException
 import org.emunix.nullpointer.core.api.domain.MaxFileSizeHasBeenExceedsException
+import org.emunix.nullpointer.uploader.domain.model.UploadResponse
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -36,7 +37,10 @@ class CheckAndUploadFileUseCaseImplTest {
 
     @Test
     fun `check upload`() = runTest {
-        coEvery { uploadRepository.upload(any()) } returns "http://mock.srv/abc.txt"
+        coEvery { uploadRepository.upload(any()) } returns UploadResponse(
+            url = "http://mock.srv/abc.txt",
+            token = "123",
+        )
         val inputStream = getResourceAsInputStream("abc.txt")
 
         val res = checkAndUploadFileUseCase.invoke(
@@ -47,6 +51,7 @@ class CheckAndUploadFileUseCaseImplTest {
         assert(res != null)
         assert(res?.name == "abc.txt")
         assert(res?.url == "http://mock.srv/abc.txt")
+        assert(res?.token == "123")
     }
 
     @Test

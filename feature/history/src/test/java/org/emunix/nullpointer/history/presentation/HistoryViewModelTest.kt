@@ -77,7 +77,13 @@ class HistoryViewModelTest {
 
     @Test
     fun `check historyItems`() = runTest {
-        val historyModel = UploadedFileModel(name = "1", size = 2, url = "3", uploadDate = Date(4))
+        val historyModel = UploadedFileModel(
+            name = "1",
+            size = 2,
+            url = "3",
+            uploadDate = Date(4),
+            token = "123",
+        )
         val expected = HistoryItem(fileName = "1", url = "3", uploadDate = "4", iconRes = 5)
         mockkStatic(::getIconResForFile)
         every { getIconResForFile(any()) } returns 5
