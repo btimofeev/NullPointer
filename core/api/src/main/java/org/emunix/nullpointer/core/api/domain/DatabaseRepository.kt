@@ -10,6 +10,7 @@ interface DatabaseRepository {
         name: String,
         size: Long,
         uploadDate: Date,
+        token: String,
     )
 
     suspend fun deleteFromHistory(url: String)

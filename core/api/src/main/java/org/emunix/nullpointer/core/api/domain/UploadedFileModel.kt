@@ -7,4 +7,5 @@ data class UploadedFileModel(
     val size: Long,
     val url: String,
     val uploadDate: Date,
+    val token: String,
 )

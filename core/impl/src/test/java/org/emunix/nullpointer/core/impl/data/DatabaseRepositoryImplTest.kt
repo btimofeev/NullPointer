@@ -38,17 +38,19 @@ class DatabaseRepositoryImplTest {
             url = "test_url",
             name = "test_name",
             size = 100,
-            uploadDate = Date(2500)
+            uploadDate = Date(2500),
+            token = "123",
         )
 
         databaseRepository.addToHistory(
             url = "test_url",
             name = "test_name",
             size = 100,
-            uploadDate = Date(2500)
+            uploadDate = Date(2500),
+            token = "123",
         )
 
-        coVerify { historyDao.insert(expectedModel) }
+        coVerify { historyDao.insertWithOldToken(expectedModel) }
     }
 
     @Test
@@ -72,13 +74,15 @@ class DatabaseRepositoryImplTest {
                 url = "test_url",
                 name = "test_name",
                 size = 100,
-                uploadDate = Date(2500)
+                uploadDate = Date(2500),
+                token = "123",
             ),
             UploadedFileModel(
                 url = "test_url 2",
                 name = "test_name 2",
                 size = 200,
-                uploadDate = Date(5500)
+                uploadDate = Date(5500),
+                token = "123",
             )
         )
         coEvery { historyDao.observeAll() } returns flowOf(
@@ -87,13 +91,15 @@ class DatabaseRepositoryImplTest {
                     url = "test_url",
                     name = "test_name",
                     size = 100,
-                    uploadDate = Date(2500)
+                    uploadDate = Date(2500),
+                    token = "123",
                 ),
                 UploadedFileDbModel(
                     url = "test_url 2",
                     name = "test_name 2",
                     size = 200,
-                    uploadDate = Date(5500)
+                    uploadDate = Date(5500),
+                    token = "123",
                 )
             )
         )

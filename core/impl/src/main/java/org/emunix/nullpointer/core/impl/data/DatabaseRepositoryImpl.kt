@@ -13,9 +13,15 @@ class DatabaseRepositoryImpl @Inject constructor(
     private val historyDao: HistoryDao,
 ) : DatabaseRepository {
 
-    override suspend fun addToHistory(url: String, name: String, size: Long, uploadDate: Date) {
-        historyDao.insert(
-            UploadedFileDbModel(url, name, size, uploadDate)
+    override suspend fun addToHistory(
+        url: String,
+        name: String,
+        size: Long,
+        uploadDate: Date,
+        token: String,
+    ) {
+        historyDao.insertWithOldToken(
+            UploadedFileDbModel(url, name, size, uploadDate, token)
         )
     }
 
@@ -36,6 +42,7 @@ class DatabaseRepositoryImpl @Inject constructor(
                         url = entry.url,
                         size = entry.size,
                         uploadDate = entry.uploadDate,
+                        token = entry.token,
                     )
                 }
             }

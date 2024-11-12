@@ -45,7 +45,13 @@ class UploadWorker(
         )
 
     private suspend fun addToHistory(model: UploadedFileModel) {
-        appProvider.getDatabaseRepository().addToHistory(model.url, model.name, model.size, model.uploadDate)
+        appProvider.getDatabaseRepository().addToHistory(
+            url = model.url,
+            name = model.name,
+            size = model.size,
+            uploadDate = model.uploadDate,
+            token = model.token,
+        )
     }
 
     private fun getErrorData(err: Throwable): Data {

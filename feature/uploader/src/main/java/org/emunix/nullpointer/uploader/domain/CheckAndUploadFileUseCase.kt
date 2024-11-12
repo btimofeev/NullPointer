@@ -52,8 +52,8 @@ internal class CheckAndUploadFileUseCaseImpl @Inject constructor(
                 return Result.failure(MaxFileSizeHasBeenExceedsException())
             }
 
-            val url = repository.upload(tempFile)
-            return Result.success(getUploadedFileModel(url, tempFile))
+            val response = repository.upload(tempFile)
+            return Result.success(getUploadedFileModel(response.url, response.token, tempFile))
         } catch (e: Exception) {
             return Result.failure(e)
         } finally {
@@ -75,12 +75,13 @@ internal class CheckAndUploadFileUseCaseImpl @Inject constructor(
         return file
     }
 
-    private fun getUploadedFileModel(url: String, file: File): UploadedFileModel =
+    private fun getUploadedFileModel(url: String, token: String, file: File): UploadedFileModel =
         UploadedFileModel(
             name = file.name,
             size = file.length(),
             url = url,
             uploadDate = Date(),
+            token = token,
         )
 
     private fun isFileFormatForbidden(file: File): Boolean {

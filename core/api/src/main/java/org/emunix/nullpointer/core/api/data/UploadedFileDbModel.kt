@@ -13,4 +13,5 @@ data class UploadedFileDbModel(
     val size: Long,
     @ColumnInfo(name = "upload_date")
     val uploadDate: Date,
+    val token: String,
 )
